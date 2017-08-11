@@ -1,0 +1,500 @@
+Evaluating "$DEVICE-NAME" (from file "wan-router-base-asr-template.xml", line 4)
+Context node: /branch-service
+Result: "ios0"
+Operation 'merge' on existing node: /devices/device[name='ios0'] (from file "wan-router-base-asr-template.xml", line 4)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:hostname (from file "wan-router-base-asr-template.xml", line 6)
+Evaluating "$DEVICE-NAME" (from file "wan-router-base-asr-template.xml", line 6)
+Context node: /branch-service
+Result: "ios0"
+Setting /devices/device[name='ios0']/config/ios:hostname to "ios0"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/aaa/accounting/delay-start (from file "wan-router-base-asr-template.xml", line 9)
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:ip/source-route (from file "wan-router-base-asr-template.xml", line 14)
+Fetching literal "true" (from file "wan-router-base-asr-template.xml", line 14)
+Setting /devices/device[name='ios0']/config/ios:ip/source-route to "true"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:ip/gratuitous-arps-conf/gratuitous-arps (from file "wan-router-base-asr-template.xml", line 16)
+Fetching literal "false" (from file "wan-router-base-asr-template.xml", line 16)
+Setting /devices/device[name='ios0']/config/ios:ip/gratuitous-arps-conf/gratuitous-arps to "false"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:ip/finger (from file "wan-router-base-asr-template.xml", line 18)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:ip/tcp/path-mtu-discovery (from file "wan-router-base-asr-template.xml", line 21)
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:ip/http/server (from file "wan-router-base-asr-template.xml", line 25)
+Fetching literal "false" (from file "wan-router-base-asr-template.xml", line 25)
+Setting /devices/device[name='ios0']/config/ios:ip/http/server to "false"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:ip/http/secure-server (from file "wan-router-base-asr-template.xml", line 26)
+Fetching literal "false" (from file "wan-router-base-asr-template.xml", line 26)
+Setting /devices/device[name='ios0']/config/ios:ip/http/secure-server to "false"
+Fetching literal "1" (from file "wan-router-base-asr-template.xml", line 30)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:ip/as-path/access-list[name='1'] (from file "wan-router-base-asr-template.xml", line 30)
+Fetching literal "permit" (from file "wan-router-base-asr-template.xml", line 32)
+Fetching literal "^$" (from file "wan-router-base-asr-template.xml", line 33)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:ip/as-path/access-list[name='1']/as-path-rule[operation='permit'][rule='^$'] (from file "wan-router-base-asr-template.xml", line 33)
+Fetching literal "Branch_Office" (from file "wan-router-base-asr-template.xml", line 40)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:ip/access-list/extended/ext-named-acl[name='Branch_Office'] (from file "wan-router-base-asr-template.xml", line 40)
+Fetching literal "remark Branch Office 2.0" (from file "wan-router-base-asr-template.xml", line 42)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:ip/access-list/extended/ext-named-acl[name='Branch_Office']/ext-access-list-rule[rule='remark Branch Office 2.0'] (from file "wan-router-base-asr-template.xml", line 42)
+Fetching literal "AIG_Default" (from file "wan-router-base-asr-template.xml", line 50)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/exporter[name='AIG_Default'] (from file "wan-router-base-asr-template.xml", line 50)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/exporter[name='AIG_Default']/description (from file "wan-router-base-asr-template.xml", line 51)
+Fetching literal "AIG Default Netflow export to regional server" (from file "wan-router-base-asr-template.xml", line 51)
+Setting /devices/device[name='ios0']/config/ios:flow/exporter[name='AIG_Default']/description to "AIG Default Netflow export to regional server"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/exporter[name='AIG_Default']/destination/address (from file "wan-router-base-asr-template.xml", line 53)
+Evaluating "/branch[name=$SERVICE-NAME]/netflow-collector-ip-address" (from file "wan-router-base-asr-template.xml", line 53)
+Context node: /branch-service
+Result:
+For /branch-service/branch[name='test'], it evaluates to "12.12.12.12"
+Setting /devices/device[name='ios0']/config/ios:flow/exporter[name='AIG_Default']/destination/address to "12.12.12.12"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/exporter[name='AIG_Default']/source/Loopback (from file "wan-router-base-asr-template.xml", line 56)
+Fetching literal "0" (from file "wan-router-base-asr-template.xml", line 56)
+Setting /devices/device[name='ios0']/config/ios:flow/exporter[name='AIG_Default']/source/Loopback to "0"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/exporter[name='AIG_Default']/transport/udp (from file "wan-router-base-asr-template.xml", line 59)
+Fetching literal "9995" (from file "wan-router-base-asr-template.xml", line 59)
+Setting /devices/device[name='ios0']/config/ios:flow/exporter[name='AIG_Default']/transport/udp to "9995"
+Fetching literal "AIG_Default_In_Monitor" (from file "wan-router-base-asr-template.xml", line 63)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor'] (from file "wan-router-base-asr-template.xml", line 63)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor']/description (from file "wan-router-base-asr-template.xml", line 64)
+Fetching literal "AIG Default Inbound/Ingress Netflow Monitor" (from file "wan-router-base-asr-template.xml", line 64)
+Setting /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor']/description to "AIG Default Inbound/Ingress Netflow Monitor"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor']/record (from file "wan-router-base-asr-template.xml", line 65)
+Fetching literal "netflow ipv4 original-input" (from file "wan-router-base-asr-template.xml", line 65)
+Setting /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor']/record to "netflow ipv4 original-input"
+Fetching literal "AIG_Default" (from file "wan-router-base-asr-template.xml", line 67)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor']/exporter[name='AIG_Default'] (from file "wan-router-base-asr-template.xml", line 67)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor']/cache/timeout/inactive (from file "wan-router-base-asr-template.xml", line 71)
+Fetching literal "60" (from file "wan-router-base-asr-template.xml", line 71)
+Setting /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor']/cache/timeout/inactive to "60"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor']/cache/timeout/active (from file "wan-router-base-asr-template.xml", line 72)
+Fetching literal "60" (from file "wan-router-base-asr-template.xml", line 72)
+Setting /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_In_Monitor']/cache/timeout/active to "60"
+Fetching literal "AIG_Default_Out_Monitor" (from file "wan-router-base-asr-template.xml", line 77)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor'] (from file "wan-router-base-asr-template.xml", line 77)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor']/description (from file "wan-router-base-asr-template.xml", line 78)
+Fetching literal "AIG Default Outbound/Egress Netflow Monitor" (from file "wan-router-base-asr-template.xml", line 78)
+Setting /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor']/description to "AIG Default Outbound/Egress Netflow Monitor"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor']/record (from file "wan-router-base-asr-template.xml", line 79)
+Fetching literal "netflow ipv4 original-output" (from file "wan-router-base-asr-template.xml", line 79)
+Setting /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor']/record to "netflow ipv4 original-output"
+Fetching literal "AIG_Default" (from file "wan-router-base-asr-template.xml", line 81)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor']/exporter[name='AIG_Default'] (from file "wan-router-base-asr-template.xml", line 81)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor']/cache/timeout/inactive (from file "wan-router-base-asr-template.xml", line 85)
+Fetching literal "60" (from file "wan-router-base-asr-template.xml", line 85)
+Setting /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor']/cache/timeout/inactive to "60"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor']/cache/timeout/active (from file "wan-router-base-asr-template.xml", line 86)
+Fetching literal "60" (from file "wan-router-base-asr-template.xml", line 86)
+Setting /devices/device[name='ios0']/config/ios:flow/monitor[name='AIG_Default_Out_Monitor']/cache/timeout/active to "60"
+Evaluating "/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']" (from file "wan-router-base-asr-template.xml", line 104)
+Context node: /branch-service
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1'], it evaluates to []
+For /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1'], it evaluates to []
+Evaluating "current()/interface-name" (from file "wan-router-base-asr-template.xml", line 105)
+Context node: /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1']
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1'], it evaluates to "0/0/1"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1'] (from file "wan-router-base-asr-template.xml", line 105)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/description (from file "wan-router-base-asr-template.xml", line 106)
+Fetching literal "WAN:<Carrier>:<Access Circuit ID>:<Access Speed>:<Port Circuit ID>:<Port Bandwidth>:<Remote Router>:<Port>" (from file "wan-router-base-asr-template.xml", line 106)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/description to "WAN:<Carrier>:<Access Circuit ID>:<Access Speed>:<Port Circuit ID>:<Port Bandwidth>:<Remote Router>:<Port>"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/dampening (from file "wan-router-base-asr-template.xml", line 117)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/address/primary/address (from file "wan-router-base-asr-template.xml", line 124)
+Evaluating "current()/ip-address" (from file "wan-router-base-asr-template.xml", line 124)
+Context node: /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1']
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1'], it evaluates to "3.3.3.3"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/address/primary/address to "3.3.3.3"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/address/primary/mask (from file "wan-router-base-asr-template.xml", line 125)
+Evaluating "current()/ip-mask" (from file "wan-router-base-asr-template.xml", line 125)
+Context node: /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1']
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1'], it evaluates to "255.255.255.253"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/address/primary/mask to "255.255.255.253"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/load-interval (from file "wan-router-base-asr-template.xml", line 139)
+Fetching literal "30" (from file "wan-router-base-asr-template.xml", line 139)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/load-interval to "30"
+Evaluating "current()/interface-name" (from file "wan-router-base-asr-template.xml", line 105)
+Context node: /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1']
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1'], it evaluates to "0/0/0"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0'] (from file "wan-router-base-asr-template.xml", line 105)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/description (from file "wan-router-base-asr-template.xml", line 106)
+Fetching literal "WAN:<Carrier>:<Access Circuit ID>:<Access Speed>:<Port Circuit ID>:<Port Bandwidth>:<Remote Router>:<Port>" (from file "wan-router-base-asr-template.xml", line 106)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/description to "WAN:<Carrier>:<Access Circuit ID>:<Access Speed>:<Port Circuit ID>:<Port Bandwidth>:<Remote Router>:<Port>"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/dampening (from file "wan-router-base-asr-template.xml", line 117)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/address/primary/address (from file "wan-router-base-asr-template.xml", line 124)
+Evaluating "current()/ip-address" (from file "wan-router-base-asr-template.xml", line 124)
+Context node: /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1']
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1'], it evaluates to "2.2.2.2"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/address/primary/address to "2.2.2.2"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/address/primary/mask (from file "wan-router-base-asr-template.xml", line 125)
+Evaluating "current()/ip-mask" (from file "wan-router-base-asr-template.xml", line 125)
+Context node: /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1']
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1'], it evaluates to "255.255.255.0"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/address/primary/mask to "255.255.255.0"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/load-interval (from file "wan-router-base-asr-template.xml", line 139)
+Fetching literal "30" (from file "wan-router-base-asr-template.xml", line 139)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/load-interval to "30"
+Fetching literal "0" (from file "wan-router-base-asr-template.xml", line 93)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/Loopback[name='0'] (from file "wan-router-base-asr-template.xml", line 93)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/Loopback[name='0']/description (from file "wan-router-base-asr-template.xml", line 94)
+Fetching literal "branch:wan:<site address>" (from file "wan-router-base-asr-template.xml", line 94)
+Setting /devices/device[name='ios0']/config/ios:interface/Loopback[name='0']/description to "branch:wan:<site address>"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/Loopback[name='0']/ip/address/primary/address (from file "wan-router-base-asr-template.xml", line 98)
+Evaluating "/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/loopback-ip-address" (from file "wan-router-base-asr-template.xml", line 98)
+Context node: /branch-service
+Result:
+For /branch-service/branch[name='test']/topology/device[name='ios0'], it evaluates to "1.1.1.1"
+Setting /devices/device[name='ios0']/config/ios:interface/Loopback[name='0']/ip/address/primary/address to "1.1.1.1"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/Loopback[name='0']/ip/address/primary/mask (from file "wan-router-base-asr-template.xml", line 99)
+Fetching literal "255.255.255.255" (from file "wan-router-base-asr-template.xml", line 99)
+Setting /devices/device[name='ios0']/config/ios:interface/Loopback[name='0']/ip/address/primary/mask to "255.255.255.255"
+Evaluating "$DEVICE-NAME" (from file "policy-interface-ospf.xml", line 4)
+Context node: /branch-service
+Result: "ios0"
+Operation 'merge' on existing node: /devices/device[name='ios0'] (from file "policy-interface-ospf.xml", line 4)
+Evaluating "/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/interface-name" (from file "policy-interface-ospf.xml", line 8)
+Context node: /branch-service
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1'], it evaluates to "0/0/1"
+For /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1'], it evaluates to "0/0/0"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1'] (from file "policy-interface-ospf.xml", line 8)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/ospf/network (from file "policy-interface-ospf.xml", line 11)
+Fetching literal "point-to-point" (from file "policy-interface-ospf.xml", line 11)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/ospf/network to "[ point-to-point ]"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/ospf/cost (from file "policy-interface-ospf.xml", line 12)
+Fetching literal "10" (from file "policy-interface-ospf.xml", line 12)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/ospf/cost to "10"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0'] (from file "policy-interface-ospf.xml", line 8)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/ospf/network (from file "policy-interface-ospf.xml", line 11)
+Fetching literal "point-to-point" (from file "policy-interface-ospf.xml", line 11)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/ospf/network to "[ point-to-point ]"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/ospf/cost (from file "policy-interface-ospf.xml", line 12)
+Fetching literal "10" (from file "policy-interface-ospf.xml", line 12)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/ospf/cost to "10"
+Evaluating "$DEVICE-NAME" (from file "policy-interface-netflow.xml", line 4)
+Context node: /branch-service
+Result: "ios0"
+Operation 'merge' on existing node: /devices/device[name='ios0'] (from file "policy-interface-netflow.xml", line 4)
+Evaluating "/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/interface-name" (from file "policy-interface-netflow.xml", line 8)
+Context node: /branch-service
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1'], it evaluates to "0/0/1"
+For /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1'], it evaluates to "0/0/0"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1'] (from file "policy-interface-netflow.xml", line 8)
+Fetching literal "input" (from file "policy-interface-netflow.xml", line 12)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/flow/monitor[direction='input'] (from file "policy-interface-netflow.xml", line 12)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/flow/monitor[direction='input']/name (from file "policy-interface-netflow.xml", line 13)
+Fetching literal "AIG_Default_In_Monitor" (from file "policy-interface-netflow.xml", line 13)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/flow/monitor[direction='input']/name to "AIG_Default_In_Monitor"
+Fetching literal "output" (from file "policy-interface-netflow.xml", line 16)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/flow/monitor[direction='output'] (from file "policy-interface-netflow.xml", line 16)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/flow/monitor[direction='output']/name (from file "policy-interface-netflow.xml", line 17)
+Fetching literal "AIG_Default_Out_Monitor" (from file "policy-interface-netflow.xml", line 17)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/ip/flow/monitor[direction='output']/name to "AIG_Default_Out_Monitor"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0'] (from file "policy-interface-netflow.xml", line 8)
+Fetching literal "input" (from file "policy-interface-netflow.xml", line 12)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/flow/monitor[direction='input'] (from file "policy-interface-netflow.xml", line 12)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/flow/monitor[direction='input']/name (from file "policy-interface-netflow.xml", line 13)
+Fetching literal "AIG_Default_In_Monitor" (from file "policy-interface-netflow.xml", line 13)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/flow/monitor[direction='input']/name to "AIG_Default_In_Monitor"
+Fetching literal "output" (from file "policy-interface-netflow.xml", line 16)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/flow/monitor[direction='output'] (from file "policy-interface-netflow.xml", line 16)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/flow/monitor[direction='output']/name (from file "policy-interface-netflow.xml", line 17)
+Fetching literal "AIG_Default_Out_Monitor" (from file "policy-interface-netflow.xml", line 17)
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/ip/flow/monitor[direction='output']/name to "AIG_Default_Out_Monitor"
+Evaluating "$DEVICE-NAME" (from file "policy-interface-bandwidth.xml", line 4)
+Context node: /branch-service
+Result: "ios0"
+Operation 'merge' on existing node: /devices/device[name='ios0'] (from file "policy-interface-bandwidth.xml", line 4)
+Evaluating "/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/interface-name" (from file "policy-interface-bandwidth.xml", line 8)
+Context node: /branch-service
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1'], it evaluates to "0/0/1"
+For /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1'], it evaluates to "0/0/0"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1'] (from file "policy-interface-bandwidth.xml", line 8)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/bandwidth/kilobits (from file "policy-interface-bandwidth.xml", line 10)
+Evaluating "/branch-policies/interface/bandwidth[name=/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/policy/bandwidth]/value" (from file "policy-interface-bandwidth.xml", line 10)
+Context node: /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1']
+Result:
+For /branch-service/branch-policies/interface/bandwidth[name='test'], it evaluates to "400"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/bandwidth/kilobits to "400"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0'] (from file "policy-interface-bandwidth.xml", line 8)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/bandwidth/kilobits (from file "policy-interface-bandwidth.xml", line 10)
+Evaluating "/branch-policies/interface/bandwidth[name=/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/policy/bandwidth]/value" (from file "policy-interface-bandwidth.xml", line 10)
+Context node: /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1']
+Result:
+For /branch-service/branch-policies/interface/bandwidth[name='test'], it evaluates to "400"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/bandwidth/kilobits to "400"
+Evaluating "$DEVICE-NAME" (from file "policy-interface-bfd.xml", line 4)
+Context node: /branch-service
+Result: "ios0"
+Operation 'merge' on existing node: /devices/device[name='ios0'] (from file "policy-interface-bfd.xml", line 4)
+Evaluating "/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/interface-name" (from file "policy-interface-bfd.xml", line 8)
+Context node: /branch-service
+Result:
+For /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1'], it evaluates to "0/0/1"
+For /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1'], it evaluates to "0/0/0"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1'] (from file "policy-interface-bfd.xml", line 8)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/bfd/interval/msecs (from file "policy-interface-bfd.xml", line 11)
+Evaluating "/branch-policies/interface/bfd-interval[name=/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/policy/bfd-interval]/msecs" (from file "policy-interface-bfd.xml", line 11)
+Context node: /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1']
+Result:
+For /branch-service/branch-policies/interface/bfd-interval[name='test'], it evaluates to "500"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/bfd/interval/msecs to "500"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/bfd/interval/min_rx (from file "policy-interface-bfd.xml", line 12)
+Evaluating "/branch-policies/interface/bfd-interval[name=/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/policy/bfd-interval]/min_rx" (from file "policy-interface-bfd.xml", line 12)
+Context node: /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1']
+Result:
+For /branch-service/branch-policies/interface/bfd-interval[name='test'], it evaluates to "400"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/bfd/interval/min_rx to "400"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/bfd/interval/multiplier (from file "policy-interface-bfd.xml", line 13)
+Evaluating "/branch-policies/interface/bfd-interval[name=/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/policy/bfd-interval]/multiplier" (from file "policy-interface-bfd.xml", line 13)
+Context node: /branch-service/branch[name='test']/topology/connection[name='coreuplink']/endpoint[number='1']
+Result:
+For /branch-service/branch-policies/interface/bfd-interval[name='test'], it evaluates to "4"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/1']/bfd/interval/multiplier to "4"
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0'] (from file "policy-interface-bfd.xml", line 8)
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/bfd/interval/msecs (from file "policy-interface-bfd.xml", line 11)
+Evaluating "/branch-policies/interface/bfd-interval[name=/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/policy/bfd-interval]/msecs" (from file "policy-interface-bfd.xml", line 11)
+Context node: /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1']
+Result:
+For /branch-service/branch-policies/interface/bfd-interval[name='test'], it evaluates to "500"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/bfd/interval/msecs to "500"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/bfd/interval/min_rx (from file "policy-interface-bfd.xml", line 12)
+Evaluating "/branch-policies/interface/bfd-interval[name=/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/policy/bfd-interval]/min_rx" (from file "policy-interface-bfd.xml", line 12)
+Context node: /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1']
+Result:
+For /branch-service/branch-policies/interface/bfd-interval[name='test'], it evaluates to "400"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/bfd/interval/min_rx to "400"
+Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/bfd/interval/multiplier (from file "policy-interface-bfd.xml", line 13)
+Evaluating "/branch-policies/interface/bfd-interval[name=/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/policy/bfd-interval]/multiplier" (from file "policy-interface-bfd.xml", line 13)
+Context node: /branch-service/branch[name='test']/topology/connection[name='wantest']/endpoint[number='1']
+Result:
+For /branch-service/branch-policies/interface/bfd-interval[name='test'], it evaluates to "4"
+Setting /devices/device[name='ios0']/config/ios:interface/GigabitEthernet[name='0/0/0']/bfd/interval/multiplier to "4"
+cli {
+    local-node {
+        data  devices {
+                  device ios0 {
+                      config {
+             +            ios:hostname ios0;
+                          ios:aaa {
+                              accounting {
+             +                    delay-start {
+             +                    }
+                              }
+                          }
+                          ios:ip {
+                              gratuitous-arps-conf {
+             -                    gratuitous-arps true;
+             +                    gratuitous-arps false;
+                              }
+             +                finger {
+             +                }
+                              tcp {
+             +                    path-mtu-discovery {
+             +                    }
+                              }
+                              http {
+             -                    server true;
+             +                    server false;
+             -                    secure-server true;
+             +                    secure-server false;
+                              }
+                              as-path {
+             +                    access-list 1 {
+             +                        as-path-rule permit ^$;
+             +                    }
+                              }
+                              access-list {
+                                  extended {
+             +                        ext-named-acl Branch_Office {
+             +                            ext-access-list-rule "remark Branch Office 2.0";
+             +                        }
+                                  }
+                              }
+                          }
+                          ios:flow {
+             +                exporter AIG_Default {
+             +                    description "AIG Default Netflow export to regional server";
+             +                    destination {
+             +                        address 12.12.12.12;
+             +                    }
+             +                    source {
+             +                        Loopback 0;
+             +                    }
+             +                    transport {
+             +                        udp 9995;
+             +                    }
+             +                }
+             +                monitor AIG_Default_In_Monitor {
+             +                    description "AIG Default Inbound/Ingress Netflow Monitor";
+             +                    record "netflow ipv4 original-input";
+             +                    exporter AIG_Default;
+             +                    cache {
+             +                        timeout {
+             +                            inactive 60;
+             +                            active 60;
+             +                        }
+             +                    }
+             +                }
+             +                monitor AIG_Default_Out_Monitor {
+             +                    description "AIG Default Outbound/Egress Netflow Monitor";
+             +                    record "netflow ipv4 original-output";
+             +                    exporter AIG_Default;
+             +                    cache {
+             +                        timeout {
+             +                            inactive 60;
+             +                            active 60;
+             +                        }
+             +                    }
+             +                }
+                          }
+                          ios:interface {
+             +                Loopback 0 {
+             +                    description "branch:wan:<site address>";
+             +                    ip {
+             +                        address {
+             +                            primary {
+             +                                address 1.1.1.1;
+             +                                mask 255.255.255.255;
+             +                            }
+             +                        }
+             +                    }
+             +                }
+             +                GigabitEthernet 0/0/0 {
+             +                    description "WAN:<Carrier>:<Access Circuit ID>:<Access Speed>:<Port Circuit ID>:<Port Bandwidth>:<Remote Router>:<Port>";
+             +                    bfd {
+             +                        interval {
+             +                            msecs 500;
+             +                            min_rx 400;
+             +                            multiplier 4;
+             +                        }
+             +                    }
+             +                    bandwidth {
+             +                        kilobits 400;
+             +                    }
+             +                    dampening {
+             +                    }
+             +                    ip {
+             +                        address {
+             +                            primary {
+             +                                address 2.2.2.2;
+             +                                mask 255.255.255.0;
+             +                            }
+             +                        }
+             +                        flow {
+             +                            monitor input {
+             +                                name AIG_Default_In_Monitor;
+             +                            }
+             +                            monitor output {
+             +                                name AIG_Default_Out_Monitor;
+             +                            }
+             +                        }
+             +                        ospf {
+             +                            network point-to-point;
+             +                            cost 10;
+             +                        }
+             +                    }
+             +                    load-interval 30;
+             +                }
+             +                GigabitEthernet 0/0/1 {
+             +                    description "WAN:<Carrier>:<Access Circuit ID>:<Access Speed>:<Port Circuit ID>:<Port Bandwidth>:<Remote Router>:<Port>";
+             +                    bfd {
+             +                        interval {
+             +                            msecs 500;
+             +                            min_rx 400;
+             +                            multiplier 4;
+             +                        }
+             +                    }
+             +                    bandwidth {
+             +                        kilobits 400;
+             +                    }
+             +                    dampening {
+             +                    }
+             +                    ip {
+             +                        address {
+             +                            primary {
+             +                                address 3.3.3.3;
+             +                                mask 255.255.255.253;
+             +                            }
+             +                        }
+             +                        flow {
+             +                            monitor input {
+             +                                name AIG_Default_In_Monitor;
+             +                            }
+             +                            monitor output {
+             +                                name AIG_Default_Out_Monitor;
+             +                            }
+             +                        }
+             +                        ospf {
+             +                            network point-to-point;
+             +                            cost 10;
+             +                        }
+             +                    }
+             +                    load-interval 30;
+             +                }
+                          }
+                      }
+                  }
+              }
+              branch-service {
+             +    branch test {
+             +        topology {
+             +            device ios0 {
+             +                role "wan router";
+             +                loopback-ip-address 1.1.1.1;
+             +            }
+             +            connection coreuplink {
+             +                type wan-core;
+             +                endpoint 1 {
+             +                    device ios0;
+             +                    interface-type GigabitEthernet;
+             +                    interface-name 0/0/1;
+             +                    ip-address 3.3.3.3;
+             +                    ip-mask 255.255.255.253;
+             +                    policy {
+             +                        ospf test;
+             +                    }
+             +                }
+             +            }
+             +            connection wantest {
+             +                type wan-ethernet;
+             +                endpoint 1 {
+             +                    device ios0;
+             +                    interface-type GigabitEthernet;
+             +                    interface-name 0/0/0;
+             +                    ip-address 2.2.2.2;
+             +                    ip-mask 255.255.255.0;
+             +                    policy {
+             +                        bfd-interval test;
+             +                        bandwidth test;
+             +                        netflow test;
+             +                    }
+             +                }
+             +            }
+             +        }
+             +        netflow-collector-ip-address 12.12.12.12;
+             +    }
+                  branch-policies {
+                      interface {
+             +            bfd-interval test {
+             +                template policy-interface-bfd;
+             +                msecs 500;
+             +                min_rx 400;
+             +                multiplier 4;
+             +            }
+             +            bandwidth test {
+             +                template policy-interface-bandwidth;
+             +                value 400;
+             +            }
+             +            netflow test {
+             +                template policy-interface-netflow;
+             +            }
+             +            ospf test {
+             +                template policy-interface-ospf;
+             +            }
+                      }
+                  }
+              }
+    }
+}

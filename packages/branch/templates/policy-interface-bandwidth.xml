@@ -1,0 +1,17 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+    <config>
+        <interface xmlns="urn:ios">
+          <GigabitEthernet>
+            <name>{$INTERFACE-NAME}</name>
+            <bandwidth>
+              <kilobits>{/branch-policies/interface/bandwidth[name=/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']/policy/bandwidth]/value}</kilobits>
+            </bandwidth>
+          </GigabitEthernet>
+        </interface>
+    </config>
+  </device>
+  </devices>
+</config-template>

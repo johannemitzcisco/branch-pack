@@ -1,0 +1,19 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <pnp xmlns="http://tail-f.com/ned/cisco/pnp">
+    <server>
+      <ip-address>10.95.5.60</ip-address>
+      <port>9191</port>
+    </server>
+    <logging>
+      <serial>
+        <name>all</name>
+      </serial>
+    </logging>
+    <map>
+      <id>FOX1232H2WV</id>
+      <device-name>Praveen-ASR-1</device-name>
+      <username>cisco</username>
+      <port>23</port>
+    </map>
+  </pnp>
+</config>

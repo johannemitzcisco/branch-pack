@@ -1,0 +1,239 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <hostname xmlns="urn:ios">{$DEVICE-NAME}</hostname>
+        <!-- Command not supported in device
+        <aaa xmlns="urn:ios">
+          <accounting>
+            <delay-start>
+            </delay-start>
+          </accounting>
+        </aaa>
+        -->
+        <ip xmlns="urn:ios">
+          <source-route>true</source-route>
+          <gratuitous-arps-conf>
+            <gratuitous-arps>false</gratuitous-arps>
+          </gratuitous-arps-conf>
+          <finger>
+          </finger>
+          <tcp>
+            <path-mtu-discovery>
+            </path-mtu-discovery>
+          </tcp>
+          <http>
+            <server>false</server>
+            <secure-server>false</secure-server>
+          </http>
+          <as-path>
+            <access-list>
+              <name>1</name>
+              <as-path-rule>
+                <operation>permit</operation>
+                <rule>^$</rule>
+              </as-path-rule>
+            </access-list>
+          </as-path>
+          <access-list>
+            <extended>
+              <ext-named-acl>
+                <name>Branch_Office</name>
+                <ext-access-list-rule>
+                  <rule>remark Branch Office 2.0</rule>
+                </ext-access-list-rule>
+              </ext-named-acl>
+            </extended>
+          </access-list>
+        </ip>
+        <flow xmlns="urn:ios">
+          <!-- This record entry is a dummy so that we can use the flow/monitor entry -->
+          <record>
+            <name>DUMMY</name>
+            <match>
+              <application>
+                <name>
+                  <account-on-resolution/>
+                </name>
+              </application>
+            </match>
+          </record>
+          <exporter>
+            <name>AIG_Default</name>
+            <description>AIG Default Netflow export to regional server</description>
+            <destination>
+              <address>{/branch[name=$SERVICE-NAME]/netflow-collector-ip-address}</address>
+            </destination>
+            <source>
+              <Loopback>0</Loopback>
+            </source>
+            <transport>
+              <udp>9995</udp>
+            </transport>
+          </exporter>
+          <monitor>
+            <name>AIG_Default_In_Monitor</name>
+            <description>AIG Default Inbound/Ingress Netflow Monitor</description>
+            <!-- Command not support in NED
+            <record>netflow ipv4 original-input</record>
+            -->
+            <record>DUMMY</record>
+            <exporter>
+              <name>AIG_Default</name>
+            </exporter>
+            <cache>
+              <timeout>
+                <inactive>60</inactive>
+                <active>60</active>
+              </timeout>
+            </cache>
+          </monitor>
+          <monitor>
+            <name>AIG_Default_Out_Monitor</name>
+            <description>AIG Default Outbound/Egress Netflow Monitor</description>
+            <!-- Command not support in NED
+            <record>netflow ipv4 original-output</record>
+            -->
+            <record>DUMMY</record>
+            <exporter>
+              <name>AIG_Default</name>
+            </exporter>
+            <cache>
+              <timeout>
+                <inactive>60</inactive>
+                <active>60</active>
+              </timeout>
+            </cache>
+          </monitor>
+        </flow>
+        <interface xmlns="urn:ios">
+          <Loopback>
+            <name>0</name>
+            <description>branch:wan:&lt;site address></description>
+            <ip>
+              <address>
+                <primary>
+                  <address>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/loopback-ip-address}</address>
+                  <mask>255.255.255.255</mask>
+                </primary>
+              </address>
+            </ip>
+          </Loopback>
+          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']}">
+            <name>{current()/interface-name}</name>
+            <description>description goes here</description>
+            <dampening>
+            </dampening>
+            <ip>
+              <address>
+                <primary>
+                  <address>{current()/ip-address}</address>
+                  <mask>{current()/ip-mask}</mask>
+                </primary>
+              </address>
+            </ip>
+            <load-interval>30</load-interval>
+          </GigabitEthernet>
+        </interface>
+        <route-map xmlns="urn:ios">
+          <name>EBGP_OUT</name>
+          <sequence>10</sequence>
+          <operation>permit</operation>
+          <match>
+            <as-path>1</as-path>
+          </match>
+        </route-map>
+        <router xmlns="urn:ios">
+          <bgp>
+            <as-no>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/as-number}</as-no>
+            <bgp>
+              <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/loopback-ip-address}</router-id>
+              <log-neighbor-changes>true</log-neighbor-changes>
+              <update-delay>1</update-delay>
+            </bgp>
+            <network>
+              <number>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/network-ip-address}</number>
+              <mask>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/network-ip-mask}</mask>
+            </network>
+            <aggregate-address>
+              <address>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/ebgp/aggregate-ip-address}</address>
+              <mask>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/ebgp/aggregate-ip-mask}</mask>
+              <summary-only/>
+            </aggregate-address>
+            <neighbor-tag>
+              <neighbor>
+                <id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/ibgp/peer-group/name}</id>
+                <peer-group/>
+                <remote-as>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/ibgp/peer-group/remote-as-number}</remote-as>
+                <fall-over-bfd>
+                  <fall-over>
+                    <bfd/>
+                  </fall-over>
+                </fall-over-bfd>
+                <next-hop-self/>
+                <soft-reconfiguration>inbound</soft-reconfiguration>
+              </neighbor>
+            </neighbor-tag>
+            <neighbor foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/ibgp/peer}">
+              <id>{current()/network-ip-address}</id>
+              <peer-group>{current()/../peer-group/name}</peer-group>
+              <update-source>
+                <GigabitEthernet>{current()/interface}</GigabitEthernet>
+              </update-source>
+              <description>branch:ibgp:{current()/hostname}</description>
+            </neighbor>
+            <neighbor>
+              <id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/ebgp/peer-ip-address}</id>
+              <remote-as>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/ebgp/remote-as-number}</remote-as>
+              <timers>
+                <keepalive-interval>2</keepalive-interval>
+                <holdtime>8</holdtime>
+              </timers>
+              <fall-over-bfd>
+                <fall-over>
+                  <bfd/>
+                </fall-over>
+              </fall-over-bfd>
+              <send-community>
+              </send-community>
+              <soft-reconfiguration>inbound</soft-reconfiguration>
+              <route-map>
+                <direction>out</direction>
+                <route-map-name>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/ebgp/route-map}</route-map-name>
+              </route-map>
+              <description>branch:ebgp:{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/bgp/ebgp/carrier-name}</description>
+            </neighbor>
+            <auto-summary>false</auto-summary>
+          </bgp>
+          <ospf>
+            <id>1</id>
+            <log-adjacency-changes>
+            </log-adjacency-changes>
+            <passive-interface>
+              <interface>
+                <name>Gig0/0/0</name>
+              </interface>
+            </passive-interface>
+            <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/loopback-ip-address}</router-id>
+            <default-information>
+              <originate>
+                <metric>10</metric>
+              </originate>
+            </default-information>
+            <network>
+              <ip>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/loopback-ip-address}</ip>
+              <mask>0.0.0.0</mask>
+              <area>0</area>
+            </network>
+            <network  foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type!='wan-ethernet']/endpoint[device=$DEVICE-NAME and interface-type='GigabitEthernet']}">
+              <ip>{current()/ip-address}</ip>
+              <mask>0.0.0.0</mask>
+              <area>0</area>
+            </network>
+          </ospf>
+        </router>
+      </config>
+  </device>
+  </devices>
+</config-template>

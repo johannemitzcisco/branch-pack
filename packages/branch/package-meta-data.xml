@@ -1,0 +1,13 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>branch</name>
+  <package-version>1.0</package-version>
+  <description>Generated Python package</description>
+  <ncs-min-version>4.4</ncs-min-version>
+
+  <component>
+    <name>branch</name>
+    <application>
+      <python-class-name>branch.branch.Deploy</python-class-name>
+    </application>
+  </component>
+</ncs-package>

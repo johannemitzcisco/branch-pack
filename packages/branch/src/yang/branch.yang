@@ -1,0 +1,258 @@
+module branch {
+
+  namespace "http://example.com/branch";
+  prefix branch;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "Bla bla...";
+
+  revision 2017-08-02 {
+    description
+      "Initial revision.";
+  }
+
+  grouping interface-policy-grouping {
+    container policy {
+      leaf bfd-interval {
+        when "deref(../../device)/../role = 'wan router' and (../../../type = 'wan-ethernet' or ../../../type = 'interlink')" {
+          tailf:dependency ../../device;
+        }
+        type leafref {
+          path "/branch-service/branch-policies/interface/bfd-interval/name";
+        }
+      }
+      leaf bandwidth {
+        when "deref(../../device)/../role = 'wan router' and ../../../type = 'wan-ethernet'" {
+          tailf:dependency ../../device;
+        }
+        type leafref {
+          path "/branch-service/branch-policies/interface/bandwidth/name";
+        }
+      }
+      leaf netflow {
+        when "deref(../../device)/../role = 'wan router' and ../../../type = 'wan-ethernet'" {
+          tailf:dependency ../../device;
+        }
+        type leafref {
+          path "/branch-service/branch-policies/interface/netflow/name";
+        }
+      }
+      leaf ospf {
+        when "deref(../../device)/../role = 'wan router' and (../../../type = 'wan-core' or ../../../type = 'interlink')" {
+          tailf:dependency ../../device;
+        }
+        type leafref {
+          path "/branch-service/branch-policies/interface/ospf/name";
+        }
+      }
+    }
+  }
+
+  grouping device-wanrouter-config-grouping {
+    container bgp {
+      when "../role = 'wan router'";
+      leaf policy-template {
+        type string;
+      }
+      leaf as-number {
+        type uint32;
+      }
+      leaf network-ip-address {
+        type inet:ipv4-address;
+      }
+      leaf network-ip-mask {
+        type inet:ipv4-address;
+      }
+      container ibgp {
+        container peer-group {
+          leaf name {
+            type string;
+          }
+          leaf remote-as-number {
+            type uint32;
+          }
+        }
+        list peer {
+          key network-ip-address;
+          leaf network-ip-address {
+            type inet:ipv4-address;
+          }
+          leaf interface {
+            type string;
+          }
+          leaf hostname {
+            type string;
+          }
+        }
+      }
+      container ebgp {
+        leaf remote-as-number {
+          type uint32;
+        }
+        leaf peer-ip-address {
+          type inet:ipv4-address;
+        }
+        leaf carrier-name {
+          type string;
+        }
+        leaf route-map {
+          type string;
+        }
+        leaf aggregate-ip-address {
+          type inet:ipv4-address;
+        }
+        leaf aggregate-ip-mask {
+          type inet:ipv4-address;
+        }
+      }
+    }
+    container ospf {
+      when "../role = 'wan router'";
+      leaf policy-template {
+        type string;
+      }
+    }
+  }
+
+  container branch-service {
+    list branch {
+      description "This is an RFS skeleton service";
+
+      key name;
+      leaf name {
+        tailf:info "Unique branch id/name";
+        type string;
+      }
+
+      uses ncs:service-data;
+      ncs:servicepoint branch-servicepoint;
+
+      container topology {
+        list device {
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf role {
+            type enumeration {
+              enum "wan router";
+              enum "core switch";
+              enum "access switch";
+            }
+          }
+          leaf loopback-ip-address {
+            type inet:ipv4-address;
+          }
+          uses device-wanrouter-config-grouping;
+        }
+        list connection {
+          key "name";
+          leaf name {
+            type string;
+          }
+          leaf type {
+            type enumeration {
+              enum "wan-core";
+              enum "interlink";
+              enum "wan-ethernet";
+            }
+          }
+          list endpoint {
+            key number;
+            leaf number {
+              type enumeration {
+                enum "1";
+                enum "2";
+              }
+            }
+            leaf device {
+              type leafref {
+                path "../../../device/name";
+              }
+            }
+            leaf interface-type {
+              type enumeration {
+                enum "GigabitEthernet";
+              }
+            }
+            leaf interface-name {
+              type string;
+            }
+            leaf ip-address {
+              type inet:ipv4-address;
+            }
+            leaf ip-mask {
+              type inet:ipv4-address;
+            }
+            uses interface-policy-grouping;
+          }
+        }
+      }
+      leaf netflow-collector-ip-address {
+        type inet:ipv4-address;
+      }
+    }
+    container branch-policies {
+      container interface {
+        list bfd-interval {
+          leaf template {
+            type string;
+          }
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf msecs {
+            type uint32;
+          }
+          leaf min_rx {
+            type uint32;
+          }
+          leaf multiplier {
+            type uint32;
+          }
+        }
+        list bandwidth {
+          leaf template {
+            type string;
+          }
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf value {
+            type uint32;
+          }
+        }
+        list netflow {
+          leaf template {
+            type string;
+          }
+          key name;
+          leaf name {
+            type string;
+          }
+        }
+        list ospf {
+          leaf template {
+            type string;
+          }
+          key name;
+          leaf name {
+            type string;
+          }
+        }
+      }
+    }
+  }
+}

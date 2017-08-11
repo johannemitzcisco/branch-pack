@@ -1,0 +1,26 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+    <config>
+        <interface xmlns="urn:ios">
+          <GigabitEthernet>
+            <name>{$INTERFACE-NAME}</name>
+            <ip>
+              <flow>
+                <monitor>
+                  <direction>input</direction>
+                  <name>AIG_Default_In_Monitor</name>
+                </monitor>
+                <monitor>
+                  <direction>output</direction>
+                  <name>AIG_Default_Out_Monitor</name>
+                </monitor>
+              </flow>
+            </ip>
+          </GigabitEthernet>
+        </interface>
+    </config>
+  </device>
+  </devices>
+</config-template>

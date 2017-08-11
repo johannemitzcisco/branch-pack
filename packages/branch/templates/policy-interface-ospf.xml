@@ -1,0 +1,20 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+    <config>
+        <interface xmlns="urn:ios">
+          <GigabitEthernet>
+            <name>{$INTERFACE-NAME}</name>
+            <ip>
+              <ospf>
+                <network>point-to-point</network>
+                <cost>10</cost>
+              </ospf>
+            </ip>
+          </GigabitEthernet>
+        </interface>
+    </config>
+  </device>
+  </devices>
+</config-template>
