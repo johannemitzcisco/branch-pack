@@ -203,6 +203,18 @@ module branch {
       }
     }
     container branch-policies {
+      container device {
+        list role {
+          leaf name {
+            type string;
+          }
+          list template {
+            leaf name {
+              type string;
+            }
+          }
+        }
+      }
       container interface {
         list bfd-interval {
           leaf template {
