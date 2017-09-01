@@ -1,0 +1,48 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <vlan xmlns="urn:ios" when="{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}">
+          <vlan-list>
+            <id>{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}</id>
+            <name>OSPF_VLAN</name>
+          </vlan-list>
+        </vlan>
+        <interface xmlns="urn:ios">
+          <Vlan when="{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}">
+            <name>{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}</name>
+            <description>SVI:OSPF VLAN</description>
+            <ip>
+              <address>
+                <primary>
+                  <mask>255.255.255.254</mask>
+                </primary>
+              </address>
+              <ospf>
+                <cost>5</cost>
+              </ospf>
+              <proxy-arp>false</proxy-arp>
+            </ip>
+          </Vlan>
+        </interface>
+        <router xmlns="urn:ios">
+          <ospf>
+            <id>1</id>
+            <log-adjacency-changes>
+            </log-adjacency-changes>
+            <passive-interface>
+              <default/>
+            </passive-interface>
+            <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback/ip-address}</router-id>
+            <network>
+              <ip>0.0.0.0</ip>
+              <mask>255.255.255.255</mask>
+              <area>0</area>
+            </network>
+          </ospf>
+        </router>
+      </config>
+  </device>
+  </devices>
+</config-template>

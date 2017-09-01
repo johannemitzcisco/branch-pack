@@ -1,0 +1,15 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <hostname xmlns="urn:ios">{$DEVICE-NAME}</hostname>
+        <ip xmlns="urn:ios">
+          <forward-protocol>
+            <nd/>
+          </forward-protocol>
+        </ip>
+      </config>
+  </device>
+  </devices>
+</config-template>

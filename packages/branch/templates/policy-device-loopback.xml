@@ -1,0 +1,23 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <interface xmlns="urn:ios">
+          <Loopback>
+            <name>0</name>
+            <description>description</description>
+            <ip>
+              <address>
+                <primary>
+                  <address>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback/ip-address}</address>
+                  <mask>255.255.255.255</mask>
+                </primary>
+              </address>
+            </ip>
+          </Loopback>
+        </interface>
+      </config>
+  </device>
+  </devices>
+</config-template>

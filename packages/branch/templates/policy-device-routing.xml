@@ -1,0 +1,80 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <route-map xmlns="urn:ios">
+          <name>EBGP_OUT</name>
+          <sequence>10</sequence>
+          <operation>permit</operation>
+          <match>
+            <as-path>1</as-path>
+          </match>
+        </route-map>
+        <router xmlns="urn:ios">
+          <bgp>
+            <as-no>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/as-number}</as-no>
+            <bgp>
+              <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback/ip-address}</router-id>
+              <log-neighbor-changes>true</log-neighbor-changes>
+              <update-delay>1</update-delay>
+            </bgp>
+            <network foreach="{/branch[name=$SERVICE-NAME]/topology/connection/side[device=$DEVICE-NAME]/port">
+              <number>{current()/ip-address}</number>
+              <mask>{current()/ip-mask}</mask>
+            </network>
+            <aggregate-address foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/aggregate-address}">
+              <address>{current()/ip-address}</address>
+              <mask>{current()/ip-mask}</mask>
+              <summary-only/>
+            </aggregate-address>
+            <neighbor-tag>
+              <neighbor>
+                <id>BRANCH_IBGP</id>
+                <peer-group/>
+                <remote-as>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/as-number}</remote-as>
+                <fall-over-bfd>
+                  <fall-over>
+                    <bfd/>
+                  </fall-over>
+                </fall-over-bfd>
+                <next-hop-self/>
+                <soft-reconfiguration>inbound</soft-reconfiguration>
+              </neighbor>
+            </neighbor-tag>
+            <neighbor foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-interlink]/side[device!=$DEVICE-NAME]/port}">
+              <id>{current()/ip-address}</id>
+              <peer-group>BRANCH_IBGP</peer-group>
+              <update-source>
+                <GigabitEthernet>{current()/peer-interface}</GigabitEthernet>
+              </update-source>
+              <description>branch:ibgp:{current()/device}</description>
+            </neighbor>
+            <neighbor>
+              <id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/ebgp/peer-ip-address}</id>
+              <remote-as>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/ebgp/remote-as-number}</remote-as>
+              <timers>
+                <keepalive-interval>2</keepalive-interval>
+                <holdtime>8</holdtime>
+              </timers>
+              <fall-over-bfd>
+                <fall-over>
+                  <bfd/>
+                </fall-over>
+              </fall-over-bfd>
+              <send-community>
+              </send-community>
+              <soft-reconfiguration>inbound</soft-reconfiguration>
+              <route-map>
+                <direction>out</direction>
+                <route-map-name>EBGP_OUT</route-map-name>
+              </route-map>
+              <description>branch:ebgp:{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/ebgp/carrier-name}</description>
+            </neighbor>
+            <auto-summary>false</auto-summary>
+          </bgp>
+        </router>
+      </config>
+  </device>
+  </devices>
+</config-template>

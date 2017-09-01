@@ -1,0 +1,44 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <interface xmlns="urn:ios">
+          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-NAME]/port[interface-type = 'GigabitEthernet']">
+            <name>{current()/interface-name}</name>
+            <description>WAN Connection</description>
+            <ip>
+              <address>
+                <primary>
+                  <address>{current()/ip-address}</address>
+                  <mask>{current()/ip-mask}</mask>
+                </primary>
+              </address>
+            </ip>
+            <bandwidth>
+              <kilobits>500</kilobits>
+            </bandwidth>
+            <bfd>
+              <interval>
+                <msecs>500</msecs>
+                <min_rx>500</min_rx>
+                <multiplier>3</multiplier>
+              </interval>
+            </bfd>
+            <logging>
+              <event>
+                <link-status>true</link-status>
+              </event>
+            </logging>
+            <cdp>
+              <enable>true</enable>
+            </cdp>
+            <load-interval>30</load-interval>
+            <dampening>
+            </dampening>
+          </GigabitEthernet>
+        </interface>
+      </config>
+  </device>
+  </devices>
+</config-template>

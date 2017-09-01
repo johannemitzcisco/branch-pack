@@ -1,0 +1,13 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <switch xmlns="urn:ios">
+          <id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/switchstack/switch-number}</id>
+          <provision>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/type/model}</provision>
+        </switch>
+      </config>
+  </device>
+  </devices>
+</config-template>

@@ -1,0 +1,13 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <vtp xmlns="urn:ios">
+          <domain>{/branch-policies/device/vtp[name=$POLICY-NAME]/domain-name}</domain>
+          <mode>transparent</mode>
+        </vtp>
+      </config>
+  </device>
+  </devices>
+</config-template>

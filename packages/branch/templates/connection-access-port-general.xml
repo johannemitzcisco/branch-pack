@@ -1,0 +1,70 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-NAME]/port">
+        <interface xmlns="urn:ios">
+          <Vlan>
+            <name>{current()/interface-name}</name>
+            <description>SVI:{current()/../../type/access/access-type} Access Vlan {current()/interface-name}</description>
+            <ip>
+              <address>
+                <primary>
+                  <address>{current()/ip-address}</address>
+                  <mask>{current()/ip-mask}</mask>
+                </primary>
+              </address>
+              <helper-address>
+                <helper-address-list>
+                  <address>{current()/../../type/access/helper-address}</address>
+                </helper-address-list>
+              </helper-address>
+              <ospf>
+                <cost>5</cost>
+              </ospf>
+              <proxy-arp>false</proxy-arp>
+            </ip>
+          </Vlan>
+          <GigabitEthernet when="{current()/../../type/access[interface-type = 'GigabitEthernet']">
+            <name>{current()/../../type/access/interface-name}</name>
+            <description>Access</description>
+            <switchport>
+              <mode>
+                <access/>
+              </mode>
+              <access when="{current()/../../type/access[access-type != 'VOICE']">
+                <vlan>{current()/../../side/port/interface-name}</vlan>
+              </access>
+              <voice when="{current()/../../type/access[access-type = 'VOICE']">
+                <vlan>{current()/../../side/port/interface-name}</vlan>
+              </voice>
+            </switchport>
+            <spanning-tree>
+              <portfast>
+              </portfast>
+            </spanning-tree>
+            <speed>100</speed>
+            <duplex when="{current()/../../type/access[access-type = 'DATA' or access-type = 'VOICE']">full</duplex>
+            <duplex when="{current()/../../type/access[access-type = 'WIRELESS' or access-type = 'SECURITY']">auto</duplex>
+            <snmp>
+              <trap>
+                <link-status>false</link-status>
+              </trap>
+            </snmp>
+            <logging>
+              <event>
+                <link-status>true</link-status>
+              </event>
+            </logging>
+          </GigabitEthernet>
+        </interface>
+        <vlan xmlns="urn:ios">
+          <vlan-list foreach="{current()/../../type/access/general/data-vlan}">
+            <id>{current()/interface-name}</id>
+            <name>{current()/../../type/access/access-type}-{current()/interface-name}}</name>
+          </vlan-list>
+        </vlan>
+      </config>
+  </device>
+  </devices>
+</config-template>

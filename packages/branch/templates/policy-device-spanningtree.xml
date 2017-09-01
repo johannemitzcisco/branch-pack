@@ -1,0 +1,33 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <spanning-tree xmlns="urn:ios">
+          <etherchannel>
+            <guard>
+              <misconfig/>
+            </guard>
+          </etherchannel>
+          <extend>
+            <system-id/>
+          </extend>
+          <loopguard>
+            <default/>
+          </loopguard>
+          <optimize>
+            <bpdu>
+              <transmission>true</transmission>
+            </bpdu>
+          </optimize>
+          <portfast>
+            <bpduguard>
+              <default/>
+            </bpduguard>
+          </portfast>
+          <mode>rapid-pvst</mode>
+        </spanning-tree>
+      </config>
+  </device>
+  </devices>
+</config-template>

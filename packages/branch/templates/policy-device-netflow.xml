@@ -1,0 +1,86 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <flow xmlns="urn:ios">
+          <!-- This record entry is a dummy so that we can use the flow/monitor entry -->
+          <record>
+            <name>DUMMY</name>
+            <match>
+              <application>
+                <name>
+                  <account-on-resolution/>
+                </name>
+              </application>
+            </match>
+          </record>
+          <exporter>
+            <name>AIG_Default</name>
+            <description>AIG Default Netflow export to regional server</description>
+            <destination>
+              <address>{/branch-policies/device/netflow[name=$POLICY-NAME]/collector-ip-address}</address>
+            </destination>
+            <source>
+              <Loopback>0</Loopback>
+            </source>
+            <transport>
+              <udp>9995</udp>
+            </transport>
+          </exporter>
+          <monitor>
+            <name>AIG_Default_In_Monitor</name>
+            <description>AIG Default Inbound/Ingress Netflow Monitor</description>
+            <!-- Command not support in NED
+            <record>netflow ipv4 original-input</record>
+            -->
+            <record>DUMMY</record>
+            <exporter>
+              <name>AIG_Default</name>
+            </exporter>
+            <cache>
+              <timeout>
+                <inactive>60</inactive>
+                <active>60</active>
+              </timeout>
+            </cache>
+          </monitor>
+          <monitor>
+            <name>AIG_Default_Out_Monitor</name>
+            <description>AIG Default Outbound/Egress Netflow Monitor</description>
+            <!-- Command not support in NED
+            <record>netflow ipv4 original-output</record>
+            -->
+            <record>DUMMY</record>
+            <exporter>
+              <name>AIG_Default</name>
+            </exporter>
+            <cache>
+              <timeout>
+                <inactive>60</inactive>
+                <active>60</active>
+              </timeout>
+            </cache>
+          </monitor>
+        </flow>
+        <interface xmlns="urn:ios">
+          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-wan and side/device=$DEVICE-NAME]/side/port[interface-type = 'GigabitEthernet']">
+            <name>{current()/interface-name}</name>
+            <ip>
+              <flow>
+                <monitor>
+                  <direction>input</direction>
+                  <name>AIG_Default_In_Monitor</name>
+                </monitor>
+                <monitor>
+                  <direction>output</direction>
+                  <name>AIG_Default_Out_Monitor</name>
+                </monitor>
+              </flow>
+            </ip>
+          </GigabitEthernet>
+        </interface>
+      </config>
+  </device>
+  </devices>
+</config-template>

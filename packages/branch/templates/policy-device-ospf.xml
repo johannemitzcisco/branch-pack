@@ -1,0 +1,32 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <router xmlns="urn:ios">
+          <ospf>
+            <id>1</id>
+            <log-adjacency-changes>
+            </log-adjacency-changes>
+            <passive-interface>
+              <interface foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-wan and side/device=$DEVICE-NAME]/side/port}">
+                <name>{current()/interface-type}{current()/interface-name}</name>
+              </interface>
+            </passive-interface>
+            <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback/ip-address}</router-id>
+            <network foreach="{/branch[name=$SERVICE-NAME]/topology/connection[(type/router-interlink or type/core-router or type/access-router)]/side[device=$DEVICE-NAME]/port}">
+              <ip>{current()/ip-address}</ip>
+              <mask>{current()/ip-mask}</mask>
+              <area>0</area>
+            </network>
+            <network>
+              <ip>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback/ip-address}</ip>
+              <mask>0.0.0.0</mask>
+              <area>0</area>
+            </network>
+          </ospf>
+        </router>
+      </config>
+  </device>
+  </devices>
+</config-template>

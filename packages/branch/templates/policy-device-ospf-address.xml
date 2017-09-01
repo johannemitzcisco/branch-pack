@@ -1,0 +1,21 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$DEVICE-NAME}</name>
+      <config>
+        <interface xmlns="urn:ios">
+          <Vlan when="{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}">
+            <name>{/branch-policies/device/ospf[name=/branch-policies/device/role[name=/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/type/role]/policies/ospf]/vlan}</name>
+            <ip>
+              <address>
+                <primary>
+                  <address>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/ospf/ip-address}</address>
+                </primary>
+              </address>
+            </ip>
+          </Vlan>
+        </interface>
+      </config>
+  </device>
+  </devices>
+</config-template>
