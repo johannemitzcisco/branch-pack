@@ -4,8 +4,22 @@
       <name>test</name>
       <topology>
         <device>
-          <name>sim-asr1</name>
-          <role>wan router</role>
+          <name>sim-catalyst-6840-1</name>
+          <type>
+            <role>core switch</role>
+            <model>C6824-X-LE-40G</model>
+          </type>
+          <loopback-ip-address>1.1.1.3</loopback-ip-address>
+          <vtp>
+            <domain-name>AIGGS</domain-name>
+          </vtp>
+        </device>
+        <!-- device>
+          <name>sim-asr-1</name>
+          <type>
+            <role>wan router</role>
+            <model>ASR1002</model>
+          </type>
           <loopback-ip-address>1.1.1.1</loopback-ip-address>
           <bgp>
             <as-number>200</as-number>
@@ -30,8 +44,11 @@
           </bgp>
         </device>
         <device>
-          <name>sim-asr2</name>
-          <role>wan router</role>
+          <name>sim-asr-2</name>
+          <type>
+            <role>wan router</role>
+            <model>ASR1002</model>
+          </type>
           <loopback-ip-address>1.1.1.2</loopback-ip-address>
           <bgp>
             <as-number>200</as-number>
@@ -60,7 +77,7 @@
           <type>interlink</type>
           <endpoint>
             <number>1</number>
-            <device>sim-asr1</device>
+            <device>sim-asr-1</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/3</interface-name>
             <ip-address>5.5.5.5</ip-address>
@@ -72,7 +89,7 @@
           </endpoint>
           <endpoint>
             <number>2</number>
-            <device>sim-asr2</device>
+            <device>sim-asr-2</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/3</interface-name>
             <ip-address>5.5.5.5</ip-address>
@@ -88,7 +105,7 @@
           <type>interlink</type>
           <endpoint>
             <number>1</number>
-            <device>sim-asr1</device>
+            <device>sim-asr-1</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/1/0</interface-name>
             <ip-address>6.6.6.6</ip-address>
@@ -100,7 +117,7 @@
           </endpoint>
           <endpoint>
             <number>2</number>
-            <device>sim-asr2</device>
+            <device>sim-asr-2</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/1/0</interface-name>
             <ip-address>6.6.6.6</ip-address>
@@ -113,61 +130,61 @@
         </connection>
         <connection>
           <name>coreuplink-1</name>
-          <type>wan-core</type>
+          <type>router-core</type>
           <endpoint>
             <number>1</number>
-            <device>sim-asr1</device>
+            <device>sim-asr-1</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/1</interface-name>
             <ip-address>3.3.3.3</ip-address>
             <ip-mask>255.255.255.0</ip-mask>
             <policy>
-              <ospf>point-to-point</ospf>
+              <ospf>point-to-point-Gigabit</ospf>
             </policy>
           </endpoint>
         </connection>
         <connection>
           <name>coreuplink-2</name>
-          <type>wan-core</type>
+          <type>router-core</type>
           <endpoint>
             <number>1</number>
-            <device>sim-asr1</device>
+            <device>sim-asr-1</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/2</interface-name>
             <ip-address>4.4.4.4</ip-address>
             <ip-mask>255.255.255.0</ip-mask>
             <policy>
-              <ospf>point-to-point</ospf>
+              <ospf>point-to-point-Gigabit</ospf>
             </policy>
           </endpoint>
         </connection>
         <connection>
           <name>coreuplink-3</name>
-          <type>wan-core</type>
+          <type>router-core</type>
           <endpoint>
             <number>1</number>
-            <device>sim-asr2</device>
+            <device>sim-asr-2</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/1</interface-name>
             <ip-address>3.3.3.3</ip-address>
             <ip-mask>255.255.255.0</ip-mask>
             <policy>
-              <ospf>point-to-point</ospf>
+              <ospf>point-to-point-Gigabit</ospf>
             </policy>
           </endpoint>
         </connection>
         <connection>
           <name>coreuplink-4</name>
-          <type>wan-core</type>
+          <type>router-core</type>
           <endpoint>
             <number>1</number>
-            <device>sim-asr2</device>
+            <device>sim-asr-2</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/2</interface-name>
             <ip-address>4.4.4.4</ip-address>
             <ip-mask>255.255.255.0</ip-mask>
             <policy>
-              <ospf>point-to-point</ospf>
+              <ospf>point-to-point-Gigabit</ospf>
             </policy>
           </endpoint>
         </connection>
@@ -176,7 +193,7 @@
           <type>wan-ethernet</type>
           <endpoint>
             <number>1</number>
-            <device>sim-asr1</device>
+            <device>sim-asr-1</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/0</interface-name>
             <ip-address>2.2.2.2</ip-address>
@@ -193,7 +210,7 @@
           <type>wan-ethernet</type>
           <endpoint>
             <number>1</number>
-            <device>sim-asr2</device>
+            <device>sim-asr-2</device>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/0</interface-name>
             <ip-address>2.2.2.2</ip-address>
@@ -204,11 +221,102 @@
               <netflow>default</netflow>
             </policy>
           </endpoint>
+        </connection -->
+        <connection>
+          <name>core-router-uplink-1</name>
+          <type>router-core</type>
+          <endpoint>
+            <number>1</number>
+            <device>sim-catalyst-6840-1</device>
+            <interface-type>TenGigabitEthernet</interface-type>
+            <interface-name>1/1</interface-name>
+            <ip-address>3.2.2.2</ip-address>
+            <ip-mask>255.255.255.254</ip-mask>
+            <policy>
+              <ospf>point-to-point-TenGigabit</ospf>
+            </policy>
+          </endpoint>
+        </connection>
+        <connection>
+          <name>core-router-uplink-2</name>
+          <type>router-core</type>
+          <endpoint>
+            <number>1</number>
+            <device>sim-catalyst-6840-1</device>
+            <interface-type>TenGigabitEthernet</interface-type>
+            <interface-name>1/2</interface-name>
+            <ip-address>3.2.2.3</ip-address>
+            <ip-mask>255.255.255.254</ip-mask>
+            <policy>
+              <ospf>point-to-point-TenGigabit</ospf>
+            </policy>
+          </endpoint>
+        </connection>
+        <connection>
+          <name>core-router-interlink-1</name>
+          <type>interlink</type>
+          <endpoint>
+            <number>1</number>
+            <device>sim-catalyst-6840-1</device>
+            <interface-type>Port-channel</interface-type>
+            <interface-name>1</interface-name>
+            <policy>
+              <switchport>trunked-Port-channel</switchport>
+            </policy>
+          </endpoint>
+        </connection>
+        <connection>
+          <name>core-router-interlink-2</name>
+          <type>interlink</type>
+          <endpoint>
+            <number>1</number>
+            <device>sim-catalyst-6840-1</device>
+            <interface-type>TenGigabitEthernet</interface-type>
+            <interface-name>1/3</interface-name>
+            <policy>
+              <switchport>trunked-TenGigabit</switchport>
+              <channelgroup>channelgroup</channelgroup>
+            </policy>
+          </endpoint>
+        </connection>
+        <connection>
+          <name>core-router-interlink-3</name>
+          <type>interlink</type>
+          <endpoint>
+            <number>1</number>
+            <device>sim-catalyst-6840-1</device>
+            <interface-type>TenGigabitEthernet</interface-type>
+            <interface-name>1/4</interface-name>
+            <policy>
+              <switchport>trunked-TenGigabit</switchport>
+              <channelgroup>channelgroup</channelgroup>
+            </policy>
+          </endpoint>
         </connection>
       </topology>
       <netflow-collector-ip-address>12.12.12.12</netflow-collector-ip-address>
     </branch>
     <branch-policies>
+      <device>
+        <general>
+          <name>access-list</name>
+          <template>policy-device-access-list</template>
+        </general>
+        <role>
+          <name>wan router</name>
+          <model>
+            <name>ASR1002</name>
+            <template>wan-router-base-asr-template</template>
+          </model>
+        </role>
+        <role>
+          <name>core switch</name>
+          <model>
+            <name>C6824-X-LE-40G</name>
+            <template>core-router-base-6840</template>
+          </model>
+        </role>
+      </device>
       <interface>
         <bfd-interval>
           <name>default</name>
@@ -227,13 +335,29 @@
           <template>policy-interface-netflow</template>
         </netflow>
         <ospf>
-          <name>point-to-point</name>
-          <template>policy-interface-ospf</template>
+          <name>point-to-point-Gigabit</name>
+          <template>policy-interface-ospf-Gigabit</template>
+        </ospf>
+        <ospf>
+          <name>point-to-point-TenGigabit</name>
+          <template>policy-interface-ospf-TenGigabit</template>
         </ospf>
         <ospf>
           <name>bfd</name>
           <template>policy-interface-ospf-bfd</template>
         </ospf>
+        <switchport>
+          <name>trunked-Port-channel</name>
+          <template>policy-interface-switchport-PortChannel</template>
+        </switchport>
+        <switchport>
+          <name>trunked-TenGigabit</name>
+          <template>policy-interface-switchport-TenGigabit</template>
+        </switchport>
+        <channelgroup>
+          <name>channelgroup</name>
+          <template>policy-interface-channelgroup</template>
+        </channelgroup>
       </interface>
     </branch-policies>
   </branch-service>

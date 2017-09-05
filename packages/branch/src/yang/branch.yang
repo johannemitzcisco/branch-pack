@@ -21,78 +21,81 @@ module branch {
       "Initial revision.";
   }
 
-  grouping interface-policy-grouping {
-    container policy {
-      leaf bfd-interval {
-        when "deref(../../device)/../role = 'wan router' and (../../../type = 'wan-ethernet' or ../../../type = 'interlink')" {
-          tailf:dependency ../../device;
-        }
+  typedef device-role {
+    type enumeration {
+      enum "router";
+      enum "core";
+      enum "access";
+      enum "access-core";
+    }
+  }
+
+  typedef physical-interface-type {
+    type enumeration {
+      enum "GigabitEthernet";
+      enum "TenGigabitEthernet";
+    }
+  }
+
+  typedef logical-interface-type {
+    type enumeration {
+      enum "Vlan";
+    }
+  }
+
+  grouping device-general-config-grouping {
+    container loopback {
+      leaf policy-name {
         type leafref {
-          path "/branch-service/branch-policies/interface/bfd-interval/name";
+          path "/branch:branch-service/branch-policies/device/loopback/name";
         }
       }
-      leaf bandwidth {
-        when "deref(../../device)/../role = 'wan router' and ../../../type = 'wan-ethernet'" {
-          tailf:dependency ../../device;
-        }
-        type leafref {
-          path "/branch-service/branch-policies/interface/bandwidth/name";
-        }
-      }
-      leaf netflow {
-        when "deref(../../device)/../role = 'wan router' and ../../../type = 'wan-ethernet'" {
-          tailf:dependency ../../device;
-        }
-        type leafref {
-          path "/branch-service/branch-policies/interface/netflow/name";
-        }
-      }
-      leaf ospf {
-        when "deref(../../device)/../role = 'wan router' and (../../../type = 'wan-core' or ../../../type = 'interlink')" {
-          tailf:dependency ../../device;
-        }
-        type leafref {
-          path "/branch-service/branch-policies/interface/ospf/name";
-        }
+      leaf ip-address {
+        type inet:ipv4-address;
       }
     }
   }
 
-  grouping device-wanrouter-config-grouping {
-    container bgp {
-      when "../role = 'wan router'";
-      leaf policy-template {
-        type string;
+  grouping device-core-config-grouping {
+    container ospf {
+      leaf policy-name {
+        type leafref {
+          path "/branch:branch-service/branch-policies/device/ospf/name";
+        }
+      }
+      leaf vlan-ip-address {
+        type inet:ipv4-address;
+      }
+    }
+  }
+
+  grouping device-router-config-grouping {
+    container netflow {
+      leaf policy-name {
+        type leafref {
+          path "/branch:branch-service/branch-policies/device/netflow/name";
+        }
+      }
+      leaf collector-ip-address {
+        type inet:ipv4-address;
+      }
+    }
+    container routing {
+      leaf policy-name {
+        type leafref {
+          path "/branch:branch-service/branch-policies/device/routing/name";
+        }
       }
       leaf as-number {
         type uint32;
       }
-      leaf network-ip-address {
-        type inet:ipv4-address;
-      }
-      leaf network-ip-mask {
-        type inet:ipv4-address;
-      }
-      container ibgp {
-        container peer-group {
-          leaf name {
-            type string;
-          }
-          leaf remote-as-number {
-            type uint32;
-          }
+      list aggregate-address {
+        key "ip-address ip-mask"; 
+        leaf ip-address {
+          type inet:ipv4-address;
         }
-        list peer {
-          key network-ip-address;
-          leaf network-ip-address {
-            type inet:ipv4-address;
-          }
-          leaf interface {
-            type string;
-          }
-          leaf hostname {
-            type string;
-          }
+        leaf ip-mask {
+          type inet:ipv4-address;
         }
       }
       container ebgp {
@@ -105,21 +108,19 @@ module branch {
         leaf carrier-name {
           type string;
         }
-        leaf route-map {
-          type string;
-        }
-        leaf aggregate-ip-address {
-          type inet:ipv4-address;
-        }
-        leaf aggregate-ip-mask {
-          type inet:ipv4-address;
-        }
       }
     }
-    container ospf {
-      when "../role = 'wan router'";
-      leaf policy-template {
-        type string;
+  }
+
+  grouping device-access-config-grouping {
+    container switchstack {
+      leaf policy-name {
+        type leafref {
+          path "/branch:branch-service/branch-policies/device/switchstack/name";
+        }
+      }
+      leaf switch-number {
+        type uint32;
       }
     }
   }
@@ -143,36 +144,44 @@ module branch {
           leaf name {
             type string;
           }
-          leaf role {
-            type enumeration {
-              enum "wan router";
-              enum "core switch";
-              enum "access switch";
+          container type {
+            leaf role {
+              type leafref {
+                path "/branch:branch-service/branch-policies/device/role/name";
+              }
+            }
+            leaf model {
+              type leafref {
+                path "/branch:branch-service/branch-policies/device/role[name=current()/../role]/model/name";
+              }
             }
           }
-          leaf loopback-ip-address {
-            type inet:ipv4-address;
+          container policies {
+            uses device-general-config-grouping;
+            uses device-core-config-grouping {
+              when "../type/role = 'core'";
+            }
+            uses device-router-config-grouping {
+              when "../type/role = 'router'";
+            }
+            uses device-access-config-grouping {
+              when "../type/role = 'access'";
+            }
           }
-          uses device-wanrouter-config-grouping;
         }
         list connection {
           key "name";
           leaf name {
             type string;
           }
-          leaf type {
-            type enumeration {
-              enum "wan-core";
-              enum "interlink";
-              enum "wan-ethernet";
-            }
-          }
-          list endpoint {
-            key number;
-            leaf number {
+          list side {
+            min-elements 1;
+            max-elements 2;
+            key name;
+            leaf name {
               type enumeration {
-                enum "1";
-                enum "2";
+                enum "A";
+                enum "B";
               }
             }
             leaf device {
@@ -180,87 +189,327 @@ module branch {
                 path "../../../device/name";
               }
             }
-            leaf interface-type {
-              type enumeration {
-                enum "GigabitEthernet";
+            list port {
+              min-elements 1;
+              max-elements 2;
+              key "interface-type interface-name";
+              leaf interface-type {
+                type union {
+                  type physical-interface-type;
+                  type logical-interface-type;
+                }
+              }
+              leaf interface-name {
+                type string;
+              }
+              leaf ip-address {
+                type inet:ipv4-address;
+              }
+              leaf ip-mask {
+                type inet:ipv4-address;
+              }
+              leaf peer-interface {
+                type string;
               }
             }
-            leaf interface-name {
-              type string;
+          }
+          container type {
+            choice type {
+              container core-router {
+                leaf policy-name {
+                  type leafref {
+                    path "/branch:branch-service/branch-policies/connection/core-router/name";
+                  }
+                }
+              }
+//              container access-router {
+//                leaf policy-name {
+//                  type leafref {
+//                    path "/branch:branch-service/branch-policies/connection/access-router/name";
+//                  }
+//                }
+//              }
+              container core-interlink {
+                leaf policy-name {
+                  type leafref {
+                    path "/branch:branch-service/branch-policies/connection/core-interlink/name";
+                  }
+                }
+              }
+              container access-core {
+                leaf policy-name {
+                  type leafref {
+                    path "/branch:branch-service/branch-policies/connection/access-core/name";
+                  }
+                }
+              }
+              container router-wan {
+                leaf policy-name {
+                  type leafref {
+                    path "/branch:branch-service/branch-policies/connection/router-wan/name";
+                  }
+                }
+              }
+              container router-interlink {
+                leaf policy-name {
+                  type leafref {
+                    path "/branch:branch-service/branch-policies/connection/router-interlink/name";
+                  }
+                }
+              }
+              container access {
+                leaf policy-name {
+                  type leafref {
+                    path "/branch:branch-service/branch-policies/connection/access/name";
+                  }
+                }
+                leaf access-type {
+                  type enumeration {
+                    enum "DATA";
+                    enum "VOICE";
+                    enum "WIRELESS";
+                    enum "SECURITY";
+                  } 
+                }
+                leaf helper-address {
+                  type inet:ipv4-address;
+                }
+                leaf interface-type {
+                  type physical-interface-type;
+                }
+                leaf interface-name {
+                  type string;
+                }
+              }
             }
-            leaf ip-address {
-              type inet:ipv4-address;
-            }
-            leaf ip-mask {
-              type inet:ipv4-address;
-            }
-            uses interface-policy-grouping;
           }
         }
       }
-      leaf netflow-collector-ip-address {
-        type inet:ipv4-address;
-      }
     }
+
     container branch-policies {
-      container device {
-        list role {
+      container connection {
+        list core-router {
+          key name;
           leaf name {
             type string;
           }
-          list template {
+          container core {
+            leaf template {
+              type string;
+            }
+          }
+          container router {
+            leaf template {
+              type string;
+            }
+          }
+          container access-core {
+            leaf template {
+              type string;
+            }
+          }
+        }
+//        list access-router {
+//          key name;
+//          leaf name {
+//            type string;
+//          }
+//          container access-core {
+//            leaf template {
+//              type string;
+//            }
+//          }
+//          container router {
+//            leaf template {
+//              type string;
+//            }
+//          }
+//        }
+        list core-interlink {
+          key name;
+          leaf name {
+            type string;
+          }
+          container core {
+            leaf template {
+              type string;
+            }
+          }
+        }
+        list access-core {
+          key name;
+          leaf name {
+            type string;
+          }
+          container access {
+            leaf template {
+              type string;
+            }
+          }
+          container core {
+            leaf template {
+              type string;
+            }
+          }
+        }
+        list router-wan {
+          key name;
+          leaf name {
+            type string;
+          }
+          container router {
+            leaf template {
+              type string;
+            }
+          }
+        }
+        list router-interlink {
+          key name;
+          leaf name {
+            type string;
+          }
+          container router {
+            leaf template {
+              type string;
+            }
+          }
+        }
+        list access {
+          key name;
+          leaf name {
+            type string;
+          }
+          container access {
+            leaf template {
+              type string;
+            }
+          }
+          container access-core {
+            leaf template {
+              type string;
+            }
+          }
+        }
+      }
+      container device {
+        list role {
+          key name;
+          leaf name {
+            type device-role;
+          }
+          list model {
+            key name;
             leaf name {
               type string;
             }
+            leaf template {
+              type string;
+            }
+          }
+          container policies {
+            leaf-list general {
+              type leafref {
+                path "../../../general/name";
+              }
+            }
+            leaf-list vtp {
+              max-elements 1;
+              type leafref {
+                path "../../../vtp/name";
+              }
+            }
+            leaf-list ospf {
+              max-elements 1;
+              type leafref {
+                path "../../../ospf/name";
+              }
+            }
+            leaf-list netflow {
+              max-elements 1;
+              type leafref {
+                path "../../../netflow/name";
+              }
+            }
           }
         }
-      }
-      container interface {
-        list bfd-interval {
-          leaf template {
-            type string;
-          }
+        list general {
           key name;
           leaf name {
             type string;
           }
-          leaf msecs {
-            type uint32;
-          }
-          leaf min_rx {
-            type uint32;
-          }
-          leaf multiplier {
-            type uint32;
-          }
-        }
-        list bandwidth {
           leaf template {
             type string;
           }
+        }
+        list loopback {
           key name;
           leaf name {
             type string;
           }
-          leaf value {
-            type uint32;
-          }
-        }
-        list netflow {
           leaf template {
             type string;
           }
+        }
+        list vtp {
           key name;
           leaf name {
+            type string;
+          }
+          leaf domain-name {
+            type string;
+          }
+          leaf template {
             type string;
           }
         }
         list ospf {
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf vlan {
+            type string;
+          }
+          leaf ip-address {
+            type inet:ipv4-address;
+          }
           leaf template {
             type string;
           }
+        }
+        list netflow {
           key name;
           leaf name {
+            type string;
+          }
+          leaf-list connection-type {
+            type enumeration {
+              enum "router-wan";
+            }
+          }
+          leaf collector-ip-address {
+            type inet:ipv4-address;
+          }
+          leaf template {
+            type string;
+          }
+        }
+        list switchstack {
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf template {
+            type string;
+          }
+        }
+        list routing {
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf template {
             type string;
           }
         }

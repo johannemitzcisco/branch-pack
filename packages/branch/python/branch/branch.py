@@ -16,38 +16,147 @@ class ServiceCallbacks(Service):
         self.log.info('Service create(service=', service._path, ' ', service.name, ')')
         branch_service_node = service._parent._parent
 
-        # Apply baseline template
+        # Apply device baseline templates
         template = ncs.template.Template(branch_service_node)
         for device in service.topology.device:
             vars = ncs.template.Variables()
-            vars.add('DEVICE-NAME', device.name)
+            devicerole = device.type.role
+            devicemodel = device.type.model
             vars.add('SERVICE-NAME', service.name)
-            template.apply('wan-router-base-asr-template', vars)
+            vars.add('DEVICE-NAME', device.name)
+            vars.add('DEVICE-ROLE', str(devicerole))
+            self.log.info('======= Device =============')
+            self.log.info('Device Role : ', str(devicerole), ' ', type(devicerole))
+            self.log.info('Device Model : ', devicemodel, ' ', type(devicemodel))
+            basetemplatestr = '/branch:branch-service/branch:branch-policies/branch:device/branch:role{"'+str(devicerole)+'"}/model{"'+devicemodel+'"}/template'
+            self.log.info('Device Template Path: ', basetemplatestr)
+            device_base_template = ncs.maagic.cd(root, basetemplatestr)
+            self.log.info('APPLY TEMPLATE: Device:', device.name, ' Template: ', device_base_template)
+            template.apply(device_base_template, vars)
+            self.log.info('======= Device Role Policies =============')
+            role_policies_str = '/branch:branch-service/branch:branch-policies/branch:device/branch:role{"'+str(devicerole)+'"}/policies'
+            self.log.info('Device Role Policies String : ', role_policies_str)
+            role_policies = ncs.maagic.cd(root, role_policies_str)
+            for policy_list in role_policies:
+                self.log.info('Policy List: ', policy_list, ' Type: ', type(policy_list))
+                policy_list_name_str = '/branch:branch-service/branch:branch-policies/branch:device/branch:role{"'+str(devicerole)+'"}/policies/'+policy_list
+                self.log.info('Device Role Policy List Name String : ', policy_list_name_str)
+                policy_list_name = ncs.maagic.cd(root, policy_list_name_str)
+                self.log.info('Policy Name: ', policy_list_name, ' Type: ', type(policy_list_name))
+                if policy_list_name is not None:
+                    for policy in policy_list_name:
+                        policy_template_str = '/branch:branch-service/branch:branch-policies/branch:device/'+str(policy_list)+'{'+policy+'}/template'
+                        self.log.info('Device Policy Template String : ', policy_template_str)
+                        policy_template = ncs.maagic.cd(root, policy_template_str)
+                        self.log.info('APPLY TEMPLATE: Device:', device.name, ' Template: ', policy_template, ' Type: ', type(policy_template))
+                        vars.add('POLICY-NAME', policy)
+                        template.apply(policy_template, vars)
+            self.log.info('======= Device Specific Policies =============')
+            for policy in device.policies:
+                try:
+                    self.log.info('Policy: ', policy, ' ', type(policy))
+                    policynode = ncs.maagic.cd(device.policies,policy)
+                    self.log.info('Policy Name: ', policynode.policy_name)
+                    if policynode is not None and policynode.policy_name is not None:
+                        policynodetemplatestr = '/branch:branch-service/branch:branch-policies/branch:device/'+policy+'{"'+policynode.policy_name+'"}/template'
+                        self.log.info('Policy Template Location: ', policynode.policy_name)
+                        policy_template_name = ncs.maagic.cd(root, policynodetemplatestr)
+                        self.log.info('APPLY TEMPLATE: Device: ', device.name, ' Template: ', policy_template_name)
+                        template.apply(policy_template_name, vars)
+                except AttributeError as error:
+                    self.log.info('Ignoring')
+
+
+
+            # device_policies_str = '/branch:branch-service/branch:branch'+service.name+'}/branch:topology/branch:device/branch:policies'
+            # self.log.info('Device  Policies String : ', role_policies_str)
+            # device_policies = ncs.maagic.cd(root, device_policies_str)
+            # for policy_list in device_policies:
+            #     self.log.info('Policy List: ', policy_list, ' Type: ', type(policy_list))
+            #     policy_list_name_str = '/branch:branch-service/branch:branch'+service.name+'}/branch:topology/branch:device/branch:policies/'+policy_list
+            #     self.log.info('Device Policy List Name String : ', policy_list_name_str)
+            #     policy_list_name = ncs.maagic.cd(root, policy_list_name_str)
+            #     self.log.info('Policy Name: ', policy_list_name, ' Type: ', type(policy_list_name))
+            #     if policy_list_name is not None:
+            #         for policy in policy_list_name:
+            #             policy_template_str = '/branch:branch-service/branch:branch-policies/branch:device/'+str(policy_list)+'{'+policy+'}/template'
+            #             self.log.info('Device Policy Template String : ', policy_template_str)
+            #             policy_template = ncs.maagic.cd(root, policy_template_str)
+            #             self.log.info('Policy Template: ', policy_template, ' Type: ', type(policy_template))
+            #             vars.add('POLICY-NAME', policy)
+            #             template.apply(policy_template, vars)
 
         # Apply Interface Policies
-        try:
+#        try:
+            self.log.info('======= Connections =============')
             for connection in service.topology.connection:
-                self.log.info('Connection: ', connection.name, ' ', connection._path)
-                for endpoint in connection.endpoint:
-                    vars = ncs.template.Variables()
-                    vars.add('SERVICE-NAME', service.name)
-                    vars.add('DEVICE-NAME', endpoint.device)
-                    vars.add('INTERFACE-NAME', endpoint.interface_name)
-                    self.log.info('Endpoint: ', endpoint.number, ' ', endpoint._path, ' ', endpoint.interface_name)
-                    for connectionpolicy in endpoint.policy:
-                        self.log.info('Policy: ', connectionpolicy, ' ', type(connectionpolicy))
-#                        self.log.info('Endpoint.Policy Class: ', type(endpoint.policy), ' ', endpoint.policy._path)
-                        policynode = ncs.maagic.cd(endpoint.policy,connectionpolicy)
-                        if policynode is not None:
-#                        self.log.info('policynode: ', type(policynode))
-                            policynodetemplatestr = '/branch:branch-service/branch:branch-policies/branch:interface/'+connectionpolicy+'{"'+policynode+'"}/template'
-                            self.log.info('Policy Node: ', policynodetemplatestr)
-                            policy_template_name = ncs.maagic.cd(root, policynodetemplatestr)
-                            self.log.info('APPLY TEMPLATE: Device: ', endpoint.device, ' Interface: ', endpoint.interface_name, ' Template: ', policy_template_name)
-                            template.apply(policy_template_name, vars)
-        except AttributeError as error:
-            self.log.info('No Interface Policies to Apply')
-            self.log.info(error)
+                vars = ncs.template.Variables()
+                vars.add('SERVICE-NAME', service.name)
+                self.log.info('Connection: ', connection.name, ' Path: ', connection._path)
+                for connectiontype in connection.type:
+                    connectiontypenode = ncs.maagic.cd(connection.type,connectiontype)
+                    self.log.info('Connection Type: ', connectiontype, ' ', type(connectiontypenode))
+                    try:
+                        if connectiontypenode is not None and connectiontypenode.policy_name is not None:
+                            self.log.info('Policy Name: ', connectiontypenode.policy_name, ' ', type(connectiontypenode))
+                            break
+                    except AttributeError as error:
+                        pass
+                for side in ('A', 'B'):
+                    try:
+                        if connection.side[side] is not None:
+                            side_device = connection.side[side].device
+                            vars.add('DEVICE-NAME', side_device)
+                            vars.add('CONNECTION-NAME', connection.name)
+                            if side_device is not None:
+                                side_device_role_location = '/branch:branch-service/branch:branch{'+service.name+'}/branch:topology/branch:device{'+side_device+'}/branch:type/branch:role'
+                                self.log.info('Side Device: ', side_device, ' Location: ', side_device_role_location)
+                                side_device_role = ncs.maagic.cd(root, side_device_role_location)
+                                self.log.info('Device role: ', side_device_role)
+                                policynodetemplatestr = '/branch:branch-service/branch:branch-policies/branch:connection/'+connectiontype+'{"'+connectiontypenode.policy_name+'"}/branch:'+str(side_device_role)+'/branch:template'
+                                self.log.info('Policy Node: ', policynodetemplatestr)
+                                policy_template_name = ncs.maagic.cd(root, policynodetemplatestr)
+                                self.log.info('APPLY TEMPLATE: Device: ', side_device, ' Template: ', policy_template_name)
+                                template.apply(policy_template_name, vars)
+                    except KeyError as error:
+#                        self.log.info(error)
+                        pass
+                # try:
+                #     if connection.side['B'] is not None:
+                #         side_B_device = connection.side['B'].device
+                #         if side_B_device is not None:
+                #             side_B_device_role_location = '/branch:branch-service/branch:branch{'+service.name+'}/branch:topology/branch:device{'+side_B_device+'}/branch:type/branch:role'
+                #             side_B_device_role = ncs.maagic.cd(root, side_B_device_role_location)
+                #             self.log.info('Device B role: ', side_B_device_role)
+                # except KeyError as error:
+                #     pass
+
+#                 for type in endpoint.policy:
+#                     self.log.info('Policy: ', connectionpolicy, ' ', type(connectionpolicy))
+# #                        self.log.info('Endpoint.Policy Class: ', type(endpoint.policy), ' ', endpoint.policy._path)
+
+#                     policynode = ncs.maagic.cd(endpoint.policy,connectionpolicy)
+
+
+#                 for side in connection.side:
+#                 for endpoint in connection.endpoint:
+#                     vars.add('DEVICE-NAME', endpoint.device)
+#                     vars.add('INTERFACE-NAME', endpoint.interface_name)
+#                     self.log.info('Endpoint: ', endpoint.number, ' ', endpoint._path, ' ', endpoint.interface_name)
+#                     for connectionpolicy in endpoint.policy:
+#                         self.log.info('Policy: ', connectionpolicy, ' ', type(connectionpolicy))
+# #                        self.log.info('Endpoint.Policy Class: ', type(endpoint.policy), ' ', endpoint.policy._path)
+#                         policynode = ncs.maagic.cd(endpoint.policy,connectionpolicy)
+#                         if policynode is not None:
+# #                        self.log.info('policynode: ', type(policynode))
+#                             policynodetemplatestr = '/branch:branch-service/branch:branch-policies/branch:interface/'+connectionpolicy+'{"'+policynode+'"}/template'
+#                             self.log.info('Policy Node: ', policynodetemplatestr)
+#                             policy_template_name = ncs.maagic.cd(root, policynodetemplatestr)
+#                             self.log.info('APPLY TEMPLATE: Device: ', endpoint.device, ' Interface: ', endpoint.interface_name, ' Template: ', policy_template_name)
+#                             template.apply(policy_template_name, vars)
+#         except AttributeError as error:
+#             self.log.info('No Interface Policies to Apply')
+#             self.log.info(error)
 
 
     # The pre_modification() and post_modification() callbacks are optional,
