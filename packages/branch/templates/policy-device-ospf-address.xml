@@ -4,7 +4,8 @@
     <name>{$DEVICE-NAME}</name>
       <config>
         <interface xmlns="urn:ios">
-          <Vlan when="{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}">
+          <!-- Vlan when="{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}" -->
+          <Vlan>
             <name>{/branch-policies/device/ospf[name=/branch-policies/device/role[name=/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/type/role]/policies/ospf]/vlan}</name>
             <ip>
               <address>

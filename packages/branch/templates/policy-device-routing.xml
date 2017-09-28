@@ -15,13 +15,17 @@
           <bgp>
             <as-no>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/as-number}</as-no>
             <bgp>
-              <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback/ip-address}</router-id>
+              <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback[interface-number=0]/ip-address}</router-id>
               <log-neighbor-changes>true</log-neighbor-changes>
               <update-delay>1</update-delay>
             </bgp>
             <network foreach="{/branch[name=$SERVICE-NAME]/topology/connection/side[device=$DEVICE-NAME]/port">
-              <number>{current()/ip-address}</number>
+              <number>{concat(substring-before(current()/ip-address,'.'),'.',substring-before(substring-after(current()/ip-address, '.'),'.'),'.',substring-before(substring-after(substring-after(current()/ip-address, '.'),'.'),'.'),'.','0')}</number>
               <mask>{current()/ip-mask}</mask>
+            </network>
+            <network foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback}">
+              <number>{concat(substring-before(current()/ip-address,'.'),'.',substring-before(substring-after(current()/ip-address, '.'),'.'),'.',substring-before(substring-after(substring-after(current()/ip-address, '.'),'.'),'.'),'.','0')}</number>
+              <mask>255.255.255.0</mask>
             </network>
             <aggregate-address foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/aggregate-address}">
               <address>{current()/ip-address}</address>

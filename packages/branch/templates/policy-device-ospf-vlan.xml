@@ -12,7 +12,7 @@
         <interface xmlns="urn:ios">
           <Vlan when="{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}">
             <name>{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}</name>
-            <description>SVI:OSPF VLAN</description>
+            <description>SVI:OSPF_VLAN</description>
             <ip>
               <address>
                 <primary>
@@ -34,7 +34,7 @@
             <passive-interface>
               <default/>
             </passive-interface>
-            <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback/ip-address}</router-id>
+            <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback[interface-number=0]/ip-address}</router-id>
             <network>
               <ip>0.0.0.0</ip>
               <mask>255.255.255.255</mask>

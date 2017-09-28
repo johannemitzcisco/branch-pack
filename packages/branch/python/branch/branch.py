@@ -54,17 +54,32 @@ class ServiceCallbacks(Service):
             self.log.info('======= Device Specific Policies =============')
             for policy in device.policies:
                 try:
-                    self.log.info('Policy: ', policy, ' ', type(policy))
-                    policynode = ncs.maagic.cd(device.policies,policy)
-                    self.log.info('Policy Name: ', policynode.policy_name)
-                    if policynode is not None and policynode.policy_name is not None:
-                        policynodetemplatestr = '/branch:branch-service/branch:branch-policies/branch:device/'+policy+'{"'+policynode.policy_name+'"}/template'
-                        self.log.info('Policy Template Location: ', policynode.policy_name)
+                    policylistnode = ncs.maagic.cd(device.policies,policy)
+                    self.log.info('Policy: ', policy, ' ', type(policy), ' node type: ', type(policylistnode), ' DICT:',policylistnode.__dict__)
+                    self.log.info('PolicyNodeKeys: ', policylistnode.keys())
+                    policynames =  set([str(policykeys[0]) for policykeys in policylistnode.keys()])
+                    self.log.info('PolicyNames: ', policynames)
+                    for policyname in policynames:
+                        self.log.info('Policy Name: ', policyname)
+                        vars.add('POLICY-NAME', policyname)
+#                            if policylistitem is not None and policylistitem.policy_name is not None:
+                        policynodetemplatestr = '/branch:branch-service/branch:branch-policies/branch:device/'+str(policy)+'{"'+str(policyname)+'"}/template'
+                        self.log.info('Policy Template Location: ', policynodetemplatestr)
                         policy_template_name = ncs.maagic.cd(root, policynodetemplatestr)
                         self.log.info('APPLY TEMPLATE: Device: ', device.name, ' Template: ', policy_template_name)
                         template.apply(policy_template_name, vars)
+
+#                    if type(policynode) is ncs.maagic.Container:
+#                        self.log.info('Policy Name: ', policynode.policy_name)
+#                        if policynode is not None and policynode.policy_name is not None:
+#                            policynodetemplatestr = '/branch:branch-service/branch:branch-policies/branch:device/'+policy+'{"'+policynode.policy_name+'"}/template'
+#                            self.log.info('Policy Template Location: ', policynode.policy_name)
+#                            policy_template_name = ncs.maagic.cd(root, policynodetemplatestr)
+#                            self.log.info('APPLY TEMPLATE: Device: ', device.name, ' Template: ', policy_template_name)
+#                            template.apply(policy_template_name, vars)
+#                    elif type(policynode) is ncs.maagic.List:
                 except AttributeError as error:
-                    self.log.info('Ignoring')
+                    self.log.info('Ignoring: ', error)
 
 
 
@@ -119,7 +134,7 @@ class ServiceCallbacks(Service):
                                 self.log.info('APPLY TEMPLATE: Device: ', side_device, ' Template: ', policy_template_name)
                                 template.apply(policy_template_name, vars)
                     except KeyError as error:
-#                        self.log.info(error)
+                        self.log.info('Ignoring Connection: ', error)
                         pass
                 # try:
                 #     if connection.side['B'] is not None:

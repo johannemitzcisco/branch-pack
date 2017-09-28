@@ -44,11 +44,15 @@ module branch {
   }
 
   grouping device-general-config-grouping {
-    container loopback {
+    list loopback {
+      key "policy-name interface-number";
       leaf policy-name {
         type leafref {
           path "/branch:branch-service/branch-policies/device/loopback/name";
         }
+      }
+      leaf interface-number {
+        type uint8;
       }
       leaf ip-address {
         type inet:ipv4-address;
@@ -57,20 +61,22 @@ module branch {
   }
 
   grouping device-core-config-grouping {
-    container ospf {
+    list ospf {
+      key policy-name;
       leaf policy-name {
         type leafref {
           path "/branch:branch-service/branch-policies/device/ospf/name";
         }
       }
-      leaf vlan-ip-address {
+      leaf ip-address {
         type inet:ipv4-address;
       }
     }
   }
 
   grouping device-router-config-grouping {
-    container netflow {
+    list netflow {
+      key policy-name;
       leaf policy-name {
         type leafref {
           path "/branch:branch-service/branch-policies/device/netflow/name";
@@ -80,7 +86,8 @@ module branch {
         type inet:ipv4-address;
       }
     }
-    container routing {
+    list routing {
+      key policy-name;
       leaf policy-name {
         type leafref {
           path "/branch:branch-service/branch-policies/device/routing/name";
@@ -113,7 +120,8 @@ module branch {
   }
 
   grouping device-access-config-grouping {
-    container switchstack {
+    list switchstack {
+      key policy-name;
       leaf policy-name {
         type leafref {
           path "/branch:branch-service/branch-policies/device/switchstack/name";
@@ -159,13 +167,13 @@ module branch {
           container policies {
             uses device-general-config-grouping;
             uses device-core-config-grouping {
-              when "../type/role = 'core'";
+              when "../type/role = 'core' or ../type/role = 'access-core'";
             }
             uses device-router-config-grouping {
               when "../type/role = 'router'";
             }
             uses device-access-config-grouping {
-              when "../type/role = 'access'";
+              when "../type/role = 'access' or ../type/role = 'access-core'";
             }
           }
         }
@@ -363,6 +371,11 @@ module branch {
               type string;
             }
           }
+          container core {
+            leaf template {
+              type string;
+            }
+          }
         }
         list router-interlink {
           key name;
@@ -471,9 +484,9 @@ module branch {
           leaf vlan {
             type string;
           }
-          leaf ip-address {
-            type inet:ipv4-address;
-          }
+//          leaf ip-address {
+//            type inet:ipv4-address;
+//          }
           leaf template {
             type string;
           }

@@ -5,7 +5,19 @@
       <role>
         <name>router</name>
         <model>
-          <name>ISR4K</name>
+          <name>ISR4451-X/K9</name>
+          <template>device-base-router-isr</template>
+        </model>
+        <policies>
+          <general>ACCESS-LIST</general>
+          <netflow>NETFLOW</netflow>
+          <ospf>OSPF-NO-VLAN</ospf>
+        </policies>
+      </role>
+      <role>
+        <name>router</name>
+        <model>
+          <name>C6824-X-LE-40G</name>
           <template>device-base-router-isr</template>
         </model>
         <policies>
@@ -23,33 +35,33 @@
         <policies>
           <general>ACCESS-LIST</general>
           <general>SPANNING-TREE</general>
-          <vtp>VTP-POLICY</vtp>
+          <!-- vtp>VTP-POLICY</vtp -->
           <ospf>OSPF-WITH-VLAN</ospf>
         </policies>
       </role>
       <role>
         <name>access</name>
         <model>
-          <name>C3850</name>
+          <name>WS-C3850-12X48U</name>
           <template>device-base-access</template>
         </model>
         <policies>
           <general>ACCESS-LIST</general>
           <general>SPANNING-TREE-ACCESS</general>
-          <vtp>VTP-POLICY</vtp>
+          <!-- vtp>VTP-POLICY</vtp -->
           <ospf>OSPF-ACCESS</ospf>
         </policies>
       </role>
       <role>
         <name>access-core</name>
         <model>
-          <name>C3850</name>
+          <name>WS-C3850-12X48U</name>
           <template>device-base-core</template>
         </model>
         <policies>
           <general>ACCESS-LIST</general>
           <general>SPANNING-TREE</general>
-          <vtp>VTP-POLICY</vtp>
+          <!-- vtp>VTP-POLICY</vtp -->
           <ospf>OSPF-WITH-VLAN</ospf>
         </policies>
       </role>
@@ -157,6 +169,9 @@
         <router>
           <template>connection-router-wan-router</template>
         </router>
+        <core>
+          <template>connection-router-wan-router</template>
+        </core>
       </router-wan>
       <router-interlink>
         <name>ROUTER-INTERLINK</name>

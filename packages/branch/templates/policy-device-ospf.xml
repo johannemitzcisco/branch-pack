@@ -13,14 +13,14 @@
                 <name>{current()/interface-type}{current()/interface-name}</name>
               </interface>
             </passive-interface>
-            <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback/ip-address}</router-id>
+            <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback[interface-number=0]/ip-address}</router-id>
             <network foreach="{/branch[name=$SERVICE-NAME]/topology/connection[(type/router-interlink or type/core-router or type/access-router)]/side[device=$DEVICE-NAME]/port}">
               <ip>{current()/ip-address}</ip>
               <mask>{current()/ip-mask}</mask>
               <area>0</area>
             </network>
-            <network>
-              <ip>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback/ip-address}</ip>
+            <network foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback}">
+              <ip>{current()/ip-address}</ip>
               <mask>0.0.0.0</mask>
               <area>0</area>
             </network>

@@ -6,7 +6,7 @@
         <hostname xmlns="urn:ios">{$DEVICE-NAME}</hostname>
         <ip xmlns="urn:ios">
           <source-route>true</source-route>
-          <routing>true</routing>
+          <!-- routing>true</routing --><!-- NOT SURE WHY THIS SHOWED UP -->
           <forward-protocol>
             <nd/>
           </forward-protocol>
