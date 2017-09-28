@@ -1,0 +1,22 @@
+<devices xmlns="http://tail-f.com/ns/ncs">
+   <device>
+     <name>sim-isr-4451-2</name>
+     <address>127.0.0.1</address>
+     <port>10023</port>
+     <ssh>
+       <host-key>
+         <algorithm>ssh-rsa</algorithm>
+         <key-data>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDFe8jeejCm/6WQMx1hLElImTdnPJbcfr4jbJQV8kh4MoXGNDNA5LlhkqIN1XVhnEcuBRGD4OPz0fScCTpSBNW4Hzdwic7KCISSiyK+IiWuB+F0jVRzI80o6DD+OVMpyCwp7tv44uLN+ffEUC8e0UilURfXLy8xNJV1bmqJZi5PwnNH2sFLPAhQVqXJWrp/cYEcp/W/kXckPeRghclW0832l6JYWviJuCxgAOPVvwM8GmHUFFrDz5rbeu8MP66bF8uQ/lptl3m4AD1XL8pUXV2bToPXZVFxH+zNcFr7V6u5w/zZ9OmM1cJqlWRExKXdT32wc98Un2BPzQw/aARrM1t root@phx2-p5-nso.phx2.cisco.com</key-data>
+       </host-key>
+     </ssh>
+     <state>
+       <admin-state>unlocked</admin-state>
+     </state>
+     <authgroup>default</authgroup>
+     <device-type>
+       <cli>
+         <ned-id xmlns:ios-id="urn:ios-id">ios-id:cisco-ios</ned-id>
+       </cli>
+     </device-type>
+   </device>
+</devices>
