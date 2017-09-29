@@ -48,7 +48,7 @@
             </extended>
           </access-list -->
         </ip>
-        <!-- flow xmlns="urn:ios" -->
+        <flow xmlns="urn:ios">
           <!-- This record entry is a dummy so that we can use the flow/monitor entry -->
           <record>
             <name>DUMMY</name>
@@ -96,7 +96,7 @@
             <!-- Command not support in NED
             <record>netflow ipv4 original-output</record>
             -->
-            <!-- record>DUMMY</record>
+            <record>DUMMY</record>
             <exporter>
               <name>AIG_Default</name>
             </exporter>
@@ -107,20 +107,8 @@
               </timeout>
             </cache>
           </monitor>
-        </flow -->
+        </flow>
         <interface xmlns="urn:ios">
-          <!-- Loopback>
-            <name>0</name>
-            <description>branch:wan:&lt;site address></description>
-            <ip>
-              <address>
-                <primary>
-                  <address>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/loopback-ip-address}</address>
-                  <mask>255.255.255.255</mask>
-                </primary>
-              </address>
-            </ip>
-          </Loopback -->
           <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'GigabitEthernet']}">
             <name>{current()/interface-name}</name>
             <description>description goes here</description>

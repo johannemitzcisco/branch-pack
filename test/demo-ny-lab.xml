@@ -37,7 +37,7 @@
           </loopback>
           <ospf>
             <policy-name>OSPF-NO-VLAN</policy-name>
-            <ip-address>10.63.4.2</ip-address>
+            <ip-address>10.63.4.1</ip-address>
           </ospf>
           <routing>
             <policy-name>ROUTING</policy-name>

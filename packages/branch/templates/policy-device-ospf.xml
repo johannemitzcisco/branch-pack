@@ -16,7 +16,7 @@
             <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback[interface-number=0]/ip-address}</router-id>
             <network foreach="{/branch[name=$SERVICE-NAME]/topology/connection[(type/router-interlink or type/core-router or type/access-router)]/side[device=$DEVICE-NAME]/port}">
               <ip>{current()/ip-address}</ip>
-              <mask>{current()/ip-mask}</mask>
+              <mask>0.0.0.255</mask>
               <area>0</area>
             </network>
             <network foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback}">

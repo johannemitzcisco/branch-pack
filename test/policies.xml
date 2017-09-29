@@ -18,7 +18,7 @@
         <name>router</name>
         <model>
           <name>C6824-X-LE-40G</name>
-          <template>device-base-router-isr</template>
+          <template>device-base-router-catalyst</template>
         </model>
         <policies>
           <general>ACCESS-LIST</general>
