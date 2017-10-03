@@ -4,8 +4,8 @@
     <name>{$DEVICE-NAME}</name>
       <config>
         <switch xmlns="urn:ios">
-          <id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/switchstack/switch-number}</id>
-          <provision>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/type/model}</provision>
+          <id>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/switchstack/switch-number}</id>
+          <provision>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/type/model}</provision>
         </switch>
       </config>
   </device>

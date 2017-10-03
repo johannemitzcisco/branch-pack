@@ -1,16 +1,14 @@
 <config xmlns="http://tail-f.com/ns/config/1.0">
   <branch-service xmlns="http://example.com/branch">
   <branch>
-    <name>nyc</name>
+    <name>{$BRANCH-NAME}</name>
     <topology>
       <device>
         <topology-name>router</topology-name>
-        <hostname>lab-ny-6840-router</hostname>
         <type>
           <role>router</role>
           <model>C6824-X-LE-40G</model>
         </type>
-        <uid>FDO191012Y4</uid>
         <policies>
           <registration>
             <policy-name>PNP</policy-name>
@@ -18,55 +16,28 @@
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>1</interface-number>
-            <ip-address>1.1.7.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>2</interface-number>
-            <ip-address>2.2.7.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>3</interface-number>
-            <ip-address>3.3.7.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>4</interface-number>
-            <ip-address>4.4.7.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>5</interface-number>
-            <ip-address>5.5.7.1</ip-address>
           </loopback>
           <ospf>
             <policy-name>OSPF-NO-VLAN</policy-name>
-            <!--ip-address>10.63.4.1</ip-address-->
           </ospf>
           <routing>
             <policy-name>ROUTING</policy-name>
-            <as-number>62100</as-number>
-            <!-- aggregate-address>
-              <ip-address>1.1.7.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address>
-            <aggregate-address>
-              <ip-address>2.2.7.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address>
-            <aggregate-address>
-              <ip-address>3.3.7.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address>
-            <aggregate-address>
-              <ip-address>4.4.7.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address>
-            <aggregate-address>
-              <ip-address>5.5.7.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address -->
           </routing>
         </policies>
       </device>
@@ -74,11 +45,10 @@
         <name>router-to-wan</name>
         <side>
           <name>A</name>
-          <device>router</device>
+          <device></device>
           <port>
             <interface-type>TenGigabitEthernet</interface-type>
             <interface-name>1/2</interface-name>
-            <ip-address>68.138.1.4</ip-address>
             <ip-mask>255.255.255.0</ip-mask>
           </port>
         </side>

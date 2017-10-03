@@ -1,11 +1,10 @@
 <config xmlns="http://tail-f.com/ns/config/1.0">
   <branch-service xmlns="http://example.com/branch">
   <branch>
-    <name>sfo</name>
+    <name>hou</name>
     <topology>
       <device>
-        <topology-name>router</topology-name>
-        <hostname>lab-sfo-4321-router</hostname>
+        <name>lab-hou-4451-router</name>
         <type>
           <role>router</role>
           <model>ISR4451-X/K9</model>
@@ -14,27 +13,27 @@
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>1</interface-number>
-            <ip-address>1.1.1.1</ip-address>
+            <ip-address>1.1.3.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>2</interface-number>
-            <ip-address>2.2.1.1</ip-address>
+            <ip-address>2.2.3.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>3</interface-number>
-            <ip-address>3.3.1.1</ip-address>
+            <ip-address>3.3.3.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>4</interface-number>
-            <ip-address>4.4.1.1</ip-address>
+            <ip-address>4.4.3.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>5</interface-number>
-            <ip-address>5.5.1.1</ip-address>
+            <ip-address>5.5.3.1</ip-address>
           </loopback>
           <ospf>
             <policy-name>OSPF-NO-VLAN</policy-name>
@@ -43,43 +42,42 @@
             <policy-name>ROUTING</policy-name>
             <as-number>62100</as-number>
             <!-- aggregate-address>
-              <ip-address>1.1.1.0</ip-address>
+              <ip-address>1.1.3.0</ip-address>
               <ip-mask>225.255.255.0</ip-mask>
             </aggregate-address>
             <aggregate-address>
-              <ip-address>2.2.1.0</ip-address>
+              <ip-address>2.2.3.0</ip-address>
               <ip-mask>225.255.255.0</ip-mask>
             </aggregate-address>
             <aggregate-address>
-              <ip-address>3.3.1.0</ip-address>
+              <ip-address>3.3.3.0</ip-address>
               <ip-mask>225.255.255.0</ip-mask>
             </aggregate-address>
             <aggregate-address>
-              <ip-address>4.4.1.0</ip-address>
+              <ip-address>4.4.3.0</ip-address>
               <ip-mask>225.255.255.0</ip-mask>
             </aggregate-address>
             <aggregate-address>
-              <ip-address>5.5.1.0</ip-address>
+              <ip-address>5.5.3.0</ip-address>
               <ip-mask>225.255.255.0</ip-mask>
             </aggregate-address -->
           </routing>
           <static-route>
             <policy-name>STATIC-ROUTE</policy-name>
-            <prefix>1.1.3.0</prefix>
+            <prefix>1.1.1.1</prefix>
             <mask>255.255.255.0</mask>
-            <forwarding-address>68.138.1.2</forwarding-address>
+            <forwarding-address>68.138.1.1</forwarding-address>
           </static-route>
           <static-route>
             <policy-name>STATIC-ROUTE</policy-name>
-            <prefix>1.1.5.0</prefix>
+            <prefix>1.1.5.1</prefix>
             <mask>255.255.255.0</mask>
             <forwarding-address>68.138.1.3</forwarding-address>
           </static-route>
         </policies>
       </device>
       <device>
-        <topology-name>switch</topology-name>
-        <hostname>lab-sfo-3850-switch</hostname>
+        <name>lab-hou-3850-switch</name>
         <type>
           <role>access-core</role>
           <model>WS-C3850-12X48U</model>
@@ -92,45 +90,45 @@
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>1</interface-number>
-            <ip-address>1.1.2.1</ip-address>
+            <ip-address>1.1.4.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>2</interface-number>
-            <ip-address>2.2.2.1</ip-address>
+            <ip-address>2.2.4.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>3</interface-number>
-            <ip-address>3.3.2.1</ip-address>
+            <ip-address>3.3.4.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>4</interface-number>
-            <ip-address>4.4.2.1</ip-address>
+            <ip-address>4.4.4.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>5</interface-number>
-            <ip-address>5.5.2.1</ip-address>
+            <ip-address>5.5.4.1</ip-address>
           </loopback>
           <static-route>
             <policy-name>STATIC-ROUTE</policy-name>
             <prefix>0.0.0.0</prefix>
             <mask>0.0.0.0</mask>
-            <forwarding-address>10.63.1.1</forwarding-address>
+            <forwarding-address>10.63.2.1</forwarding-address>
           </static-route>
         </policies>
       </device>
       <connection>
-        <name>sfo-router-wan</name>
+        <name>hou-router-wan</name>
         <side>
           <name>A</name>
-          <device>router</device>
+          <device>lab-hou-4451-router</device>
           <port>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/0</interface-name>
-            <ip-address>68.138.1.1</ip-address>
+            <ip-address>68.138.1.2</ip-address>
             <ip-mask>255.255.255.0</ip-mask>
           </port>
         </side>
@@ -141,24 +139,24 @@
         </type>
       </connection>
       <connection>
-        <name>sfo-accesscore-router</name>
+        <name>hou-accesscore-router</name>
         <side>
           <name>A</name>
-          <device>switch</device>
+          <device>lab-hou-3850-switch</device>
           <port>
-            <interface-type>TenGigabitEthernet</interface-type>
+            <interface-type>GigabitEthernet</interface-type>
             <interface-name>1/0/1</interface-name>
-            <ip-address>10.63.1.2</ip-address>
+            <ip-address>10.63.2.2</ip-address>
             <ip-mask>255.255.255.0</ip-mask>
           </port>
         </side>
         <side>
           <name>B</name>
-          <device>router</device>
+          <device>lab-hou-4451-router</device>
           <port>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/1</interface-name>
-            <ip-address>10.63.1.1</ip-address>
+            <ip-address>10.63.2.1</ip-address>
             <ip-mask>255.255.255.0</ip-mask>
           </port>
         </side>
@@ -168,11 +166,11 @@
           </core-router>
         </type>
       </connection>
-      <!-- connection>
-        <name>access-1-general-data-300</name>
+      <connection>
+        <name>lab-hou-access-general-data-300</name>
         <side>
           <name>A</name>
-          <device>sim-sfo-3850-swtich</device>
+          <device>sim-hou-3850-swtich</device>
           <port>
             <interface-type>Vlan</interface-type>
             <interface-name>300</interface-name>
@@ -188,11 +186,11 @@
           </access>
         </type>
       </connection>
-      <connection>
+      <!-- connection>
         <name>access-1-general-data-400</name>
         <side>
           <name>A</name>
-          <device>sim-sfo-3850-swtich</device>
+          <device>sim-hou-3850-swtich</device>
           <port>
             <interface-type>Vlan</interface-type>
             <interface-name>400</interface-name>
@@ -212,7 +210,7 @@
         <name>access-1-general-security-399</name>
         <side>
           <name>A</name>
-          <device>sim-sfo-3850-swtich</device>
+          <device>sim-hou-3850-swtich</device>
           <port>
             <interface-type>Vlan</interface-type>
             <interface-name>399</interface-name>

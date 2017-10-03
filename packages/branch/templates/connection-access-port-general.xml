@@ -2,11 +2,12 @@
   <devices xmlns="http://tail-f.com/ns/ncs">
   <device>
     <name>{$DEVICE-NAME}</name>
-      <config foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-NAME]/port">
+      <config foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port">
         <interface xmlns="urn:ios">
           <Vlan>
             <name>{current()/interface-name}</name>
             <description>SVI:{current()/../../type/access/access-type} Access Vlan {current()/interface-name}</description>
+            <shutdown tags="delete"></shutdown>
             <ip>
               <address>
                 <primary>
@@ -27,6 +28,7 @@
           </Vlan>
           <GigabitEthernet when="{current()/../../type/access[interface-type = 'GigabitEthernet']">
             <name>{current()/../../type/access/interface-name}</name>
+            <shutdown tags="delete"></shutdown>
             <description>Access</description>
             <switchport>
               <mode>

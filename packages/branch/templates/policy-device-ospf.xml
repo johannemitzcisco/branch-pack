@@ -9,19 +9,19 @@
             <log-adjacency-changes>
             </log-adjacency-changes>
             <passive-interface>
-              <interface foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-wan and side/device=$DEVICE-NAME]/side/port}">
+              <interface foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-wan and side[device=$DEVICE-TOPOLOGY-NAME]]/side/port}">
                 <name>{current()/interface-type}{current()/interface-name}</name>
               </interface>
             </passive-interface>
-            <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback[interface-number=0]/ip-address}</router-id>
-            <network foreach="{/branch[name=$SERVICE-NAME]/topology/connection[(type/router-interlink or type/core-router or type/access-router)]/side[device=$DEVICE-NAME]/port}">
-              <ip>{current()/ip-address}</ip>
+            <router-id>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/loopback[interface-number=1]/ip-address}</router-id>
+            <network foreach="{/branch[name=$SERVICE-NAME]/topology/connection[(type/router-interlink or type/core-router or type/access-router)]/side[device=$DEVICE-TOPOLOGY-NAME]/port}">
+              <ip>{concat(substring-before(current()/ip-address,'.'),'.',substring-before(substring-after(current()/ip-address, '.'),'.'),'.',substring-before(substring-after(substring-after(current()/ip-address, '.'),'.'),'.'),'.','0')}</ip>
               <mask>0.0.0.255</mask>
               <area>0</area>
             </network>
-            <network foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback}">
-              <ip>{current()/ip-address}</ip>
-              <mask>0.0.0.0</mask>
+            <network foreach="{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/loopback}">
+              <ip>{concat(substring-before(current()/ip-address,'.'),'.',substring-before(substring-after(current()/ip-address, '.'),'.'),'.',substring-before(substring-after(substring-after(current()/ip-address, '.'),'.'),'.'),'.','0')}</ip>
+              <mask>0.0.0.255</mask>
               <area>0</area>
             </network>
           </ospf>

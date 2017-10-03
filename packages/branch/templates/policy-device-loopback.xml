@@ -4,14 +4,14 @@
     <name>{$DEVICE-NAME}</name>
       <config>
         <interface xmlns="urn:ios">
-          <Loopback foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback[policy-name=$POLICY-NAME]}">
+          <Loopback foreach="{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/loopback[policy-name=$POLICY-NAME]}">
             <name>{interface-number}</name>
             <description>description</description>
             <ip>
               <address>
                 <primary>
                   <address>{ip-address}</address>
-                  <mask>255.255.255.255</mask>
+                  <mask>255.255.255.0</mask>
                 </primary>
               </address>
             </ip>

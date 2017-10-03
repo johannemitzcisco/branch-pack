@@ -21,6 +21,12 @@ module branch {
       "Initial revision.";
   }
 
+  augment /ncs:devices/ncs:device {
+    leaf uid {
+      type string;
+    }
+  }
+  
   typedef device-role {
     type enumeration {
       enum "router";
@@ -44,6 +50,14 @@ module branch {
   }
 
   grouping device-general-config-grouping {
+    list registration {
+      key "policy-name";
+      leaf policy-name {
+        type leafref {
+          path "/branch:branch-service/branch-policies/device/registration/name";
+        }
+      }
+    }
     list loopback {
       key "policy-name interface-number";
       leaf policy-name {
@@ -58,9 +72,29 @@ module branch {
         type inet:ipv4-address;
       }
     }
+    list static-route {
+      key "policy-name prefix mask";
+      leaf policy-name {
+        type leafref {
+          path "/branch:branch-service/branch-policies/device/static-route/name";
+        }
+      }
+      leaf prefix {
+        type inet:ipv4-address;
+      }
+      leaf mask {
+        type inet:ipv4-address;
+      }
+      leaf forwarding-address {
+        type inet:ipv4-address;
+      }
+    }
   }
 
   grouping device-core-config-grouping {
+  }
+
+  grouping device-core-router-config-grouping {
     list ospf {
       key policy-name;
       leaf policy-name {
@@ -134,8 +168,45 @@ module branch {
   }
 
   container branch-service {
+    tailf:action load-topology-template {
+      tailf:info "Load Topology Template";
+      tailf:actionpoint loadservicetemplate-action;
+      input {
+        leaf branch-name {
+          tailf:info "Name of the new branch";
+          type string;
+        }
+        leaf topology-template {
+          type leafref {
+            path "/branch:branch-service/branch-policies/branch/topology-templates/name";
+          }
+        }
+      }
+      output {
+      }
+    }
+
     list branch {
-      description "This is an RFS skeleton service";
+
+      leaf test-status {
+        type enumeration {
+          enum "UNKNOWN";
+          enum "PASSED";
+          enum "FAILD";
+        }
+        default "UNKNOWN";
+      }
+      container tests {
+        leaf command {
+          type string;
+        }
+        leaf output-line-match {
+          type string;
+        }
+        leaf line-contains {
+          type string;
+        }
+      }
 
       key name;
       leaf name {
@@ -148,8 +219,14 @@ module branch {
 
       container topology {
         list device {
-          key name;
-          leaf name {
+          key topology-name;
+          leaf topology-name {
+            type string;
+          }
+          leaf hostname {
+            type string;
+          }
+          leaf uid {
             type string;
           }
           container type {
@@ -171,6 +248,9 @@ module branch {
             }
             uses device-router-config-grouping {
               when "../type/role = 'router'";
+            }
+            uses device-core-router-config-grouping {
+              when "../type/role = 'router' or ../type/role = 'core'";
             }
             uses device-access-config-grouping {
               when "../type/role = 'access' or ../type/role = 'access-core'";
@@ -194,7 +274,7 @@ module branch {
             }
             leaf device {
               type leafref {
-                path "../../../device/name";
+                path "../../../device/topology-name";
               }
             }
             list port {
@@ -230,13 +310,6 @@ module branch {
                   }
                 }
               }
-//              container access-router {
-//                leaf policy-name {
-//                  type leafref {
-//                    path "/branch:branch-service/branch-policies/connection/access-router/name";
-//                  }
-//                }
-//              }
               container core-interlink {
                 leaf policy-name {
                   type leafref {
@@ -296,6 +369,17 @@ module branch {
     }
 
     container branch-policies {
+      container branch {
+        list topology-templates {
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf model-template-file {
+            type string;
+          }
+        }
+      }
       container connection {
         list core-router {
           key name;
@@ -318,22 +402,6 @@ module branch {
             }
           }
         }
-//        list access-router {
-//          key name;
-//          leaf name {
-//            type string;
-//          }
-//          container access-core {
-//            leaf template {
-//              type string;
-//            }
-//          }
-//          container router {
-//            leaf template {
-//              type string;
-//            }
-//          }
-//        }
         list core-interlink {
           key name;
           leaf name {
@@ -455,6 +523,24 @@ module branch {
             type string;
           }
         }
+        list registration {
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf template {
+            type string;
+          }
+        }
+        list static-route {
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf template {
+            type string;
+          }
+        }
         list loopback {
           key name;
           leaf name {
@@ -484,9 +570,6 @@ module branch {
           leaf vlan {
             type string;
           }
-//          leaf ip-address {
-//            type inet:ipv4-address;
-//          }
           leaf template {
             type string;
           }

@@ -13,21 +13,21 @@
         </route-map>
         <router xmlns="urn:ios">
           <bgp>
-            <as-no>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/as-number}</as-no>
+            <as-no>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/routing/as-number}</as-no>
             <bgp>
-              <router-id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback[interface-number=0]/ip-address}</router-id>
+              <router-id>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/loopback[interface-number=1]/ip-address}</router-id>
               <log-neighbor-changes>true</log-neighbor-changes>
               <update-delay>1</update-delay>
             </bgp>
-            <network foreach="{/branch[name=$SERVICE-NAME]/topology/connection/side[device=$DEVICE-NAME]/port">
+            <network foreach="{/branch[name=$SERVICE-NAME]/topology/connection/side[device=$DEVICE-TOPOLOGY-NAME]/port">
               <number>{concat(substring-before(current()/ip-address,'.'),'.',substring-before(substring-after(current()/ip-address, '.'),'.'),'.',substring-before(substring-after(substring-after(current()/ip-address, '.'),'.'),'.'),'.','0')}</number>
               <mask>{current()/ip-mask}</mask>
             </network>
-            <network foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/loopback}">
+            <network foreach="{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/loopback}">
               <number>{concat(substring-before(current()/ip-address,'.'),'.',substring-before(substring-after(current()/ip-address, '.'),'.'),'.',substring-before(substring-after(substring-after(current()/ip-address, '.'),'.'),'.'),'.','0')}</number>
               <mask>255.255.255.0</mask>
             </network>
-            <aggregate-address foreach="{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/aggregate-address}">
+            <aggregate-address foreach="{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/routing/aggregate-address}">
               <address>{current()/ip-address}</address>
               <mask>{current()/ip-mask}</mask>
               <summary-only/>
@@ -36,7 +36,7 @@
               <neighbor>
                 <id>BRANCH_IBGP</id>
                 <peer-group/>
-                <remote-as>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/as-number}</remote-as>
+                <remote-as>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/routing/as-number}</remote-as>
                 <fall-over-bfd>
                   <fall-over>
                     <bfd/>
@@ -46,12 +46,12 @@
                 <soft-reconfiguration>inbound</soft-reconfiguration>
               </neighbor>
             </neighbor-tag>
-            <neighbor foreach="{/branch/topology/device[name!=$DEVICE-NAME and type/role='router']/policies/loopback[interface-number=0]}">
+            <neighbor foreach="{/branch/topology/device[name!=$DEVICE-NAME and type/role='router']/policies/loopback[interface-number=1]}">
               <id>{current()/ip-address}</id>
               <peer-group>BRANCH_IBGP</peer-group>
               <description>branch:ibgp:{current()/device}</description>
             </neighbor>
-            <neighbor foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-interlink]/side[device!=$DEVICE-NAME]/port}">
+            <neighbor foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-interlink]/side[device!=$DEVICE-TOPOLOGY-NAME]/port}">
               <id>{current()/ip-address}</id>
               <peer-group>BRANCH_IBGP</peer-group>
               <update-source>
@@ -60,8 +60,8 @@
               <description>branch:ibgp:{current()/device}</description>
             </neighbor>
             <neighbor>
-              <id>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/ebgp/peer-ip-address}</id>
-              <remote-as>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/ebgp/remote-as-number}</remote-as>
+              <id>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/routing/ebgp/peer-ip-address}</id>
+              <remote-as>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/routing/ebgp/remote-as-number}</remote-as>
               <timers>
                 <keepalive-interval>2</keepalive-interval>
                 <holdtime>8</holdtime>
@@ -78,7 +78,7 @@
                 <direction>out</direction>
                 <route-map-name>EBGP_OUT</route-map-name>
               </route-map>
-              <description>branch:ebgp:{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/routing/ebgp/carrier-name}</description>
+              <description>branch:ebgp:{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/routing/ebgp/carrier-name}</description>
             </neighbor>
             <auto-summary>false</auto-summary>
           </bgp>

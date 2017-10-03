@@ -6,7 +6,7 @@
      <ssh>
        <host-key>
          <algorithm>ssh-rsa</algorithm>
-         <key-data>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDmgIhB0aH5XFkD81duByBJrYMgZvRABNXXwP96pkNjWlH9mhfIm44WzSDhVyZ0EiYV6fKPe0iZ84W8YEpIa1idtPsqTzA2YHm2x+cKYBwnsl7BSFYZcDSkGW6GpCEazVmI7tkRUY/GHZpFU7Cn9Ww3oVbs93xQlAoxDtLvTb8xBsDaTOXUo4l4ciW3sVV69EpBIsoXGYWalQZ8zXIOa2ouqtcMPD35nshY/tJ1mIp+1BfFO45GKm3FpTY1F4yjg9dXvFeKzl7cAIlbrvH721D98tGCO9JZbdznV27BAKUnmTwE/FTUM1jjSFjx1A+c+YkHv6xPB39IFiab5L4ZB7gj jnemitz@JNEMITZ-M-555J</key-data>
+         <key-data>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDFe8jeejCm/6WQMx1hLElImTdnPJbcfr4jbJQV8kh4MoXGNDNA5LlhkqIN1XVhnEcuBRGD4OPz0fScCTpSBNW4Hzdwic7KCISSiyK+IiWuB+F0jVRzI80o6DD+OVMpyCwp7tv44uLN+ffEUC8e0UilURfXLy8xNJV1bmqJZi5PwnNH2sFLPAhQVqXJWrp/cYEcp/W/kXckPeRghclW0832l6JYWviJuCxgAOPVvwM8GmHUFFrDz5rbeu8MP66bF8uQ/lptl3m4AD1XL8pUXV2bToPXZVFxH+zNcFr7V6u5w/zZ9OmM1cJqlWRExKXdT32wc98Un2BPzQw/aARrM1t root@phx2-p5-nso.phx2.cisco.com</key-data>
        </host-key>
      </ssh>
      <state>
@@ -26,7 +26,7 @@
      <ssh>
        <host-key>
          <algorithm>ssh-rsa</algorithm>
-         <key-data>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDmgIhB0aH5XFkD81duByBJrYMgZvRABNXXwP96pkNjWlH9mhfIm44WzSDhVyZ0EiYV6fKPe0iZ84W8YEpIa1idtPsqTzA2YHm2x+cKYBwnsl7BSFYZcDSkGW6GpCEazVmI7tkRUY/GHZpFU7Cn9Ww3oVbs93xQlAoxDtLvTb8xBsDaTOXUo4l4ciW3sVV69EpBIsoXGYWalQZ8zXIOa2ouqtcMPD35nshY/tJ1mIp+1BfFO45GKm3FpTY1F4yjg9dXvFeKzl7cAIlbrvH721D98tGCO9JZbdznV27BAKUnmTwE/FTUM1jjSFjx1A+c+YkHv6xPB39IFiab5L4ZB7gj jnemitz@JNEMITZ-M-555J</key-data>
+         <key-data>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDFe8jeejCm/6WQMx1hLElImTdnPJbcfr4jbJQV8kh4MoXGNDNA5LlhkqIN1XVhnEcuBRGD4OPz0fScCTpSBNW4Hzdwic7KCISSiyK+IiWuB+F0jVRzI80o6DD+OVMpyCwp7tv44uLN+ffEUC8e0UilURfXLy8xNJV1bmqJZi5PwnNH2sFLPAhQVqXJWrp/cYEcp/W/kXckPeRghclW0832l6JYWviJuCxgAOPVvwM8GmHUFFrDz5rbeu8MP66bF8uQ/lptl3m4AD1XL8pUXV2bToPXZVFxH+zNcFr7V6u5w/zZ9OmM1cJqlWRExKXdT32wc98Un2BPzQw/aARrM1t root@phx2-p5-nso.phx2.cisco.com</key-data>
        </host-key>
      </ssh>
      <state>
@@ -46,7 +46,7 @@
      <ssh>
        <host-key>
          <algorithm>ssh-rsa</algorithm>
-         <key-data>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDmgIhB0aH5XFkD81duByBJrYMgZvRABNXXwP96pkNjWlH9mhfIm44WzSDhVyZ0EiYV6fKPe0iZ84W8YEpIa1idtPsqTzA2YHm2x+cKYBwnsl7BSFYZcDSkGW6GpCEazVmI7tkRUY/GHZpFU7Cn9Ww3oVbs93xQlAoxDtLvTb8xBsDaTOXUo4l4ciW3sVV69EpBIsoXGYWalQZ8zXIOa2ouqtcMPD35nshY/tJ1mIp+1BfFO45GKm3FpTY1F4yjg9dXvFeKzl7cAIlbrvH721D98tGCO9JZbdznV27BAKUnmTwE/FTUM1jjSFjx1A+c+YkHv6xPB39IFiab5L4ZB7gj jnemitz@JNEMITZ-M-555J</key-data>
+         <key-data>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDFe8jeejCm/6WQMx1hLElImTdnPJbcfr4jbJQV8kh4MoXGNDNA5LlhkqIN1XVhnEcuBRGD4OPz0fScCTpSBNW4Hzdwic7KCISSiyK+IiWuB+F0jVRzI80o6DD+OVMpyCwp7tv44uLN+ffEUC8e0UilURfXLy8xNJV1bmqJZi5PwnNH2sFLPAhQVqXJWrp/cYEcp/W/kXckPeRghclW0832l6JYWviJuCxgAOPVvwM8GmHUFFrDz5rbeu8MP66bF8uQ/lptl3m4AD1XL8pUXV2bToPXZVFxH+zNcFr7V6u5w/zZ9OmM1cJqlWRExKXdT32wc98Un2BPzQw/aARrM1t root@phx2-p5-nso.phx2.cisco.com</key-data>
        </host-key>
      </ssh>
      <state>

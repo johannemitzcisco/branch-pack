@@ -4,9 +4,10 @@
     <name>{$DEVICE-NAME}</name>
       <config>
         <interface xmlns="urn:ios">
-          <TenGigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-NAME]/port[interface-type = 'TenGigabitEthernet']">
+          <TenGigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'TenGigabitEthernet']">
             <name>{current()/interface-name}</name>
             <description>{current()/../../type} to {current()/../../side[device!=$DEVICE-NAME]/device} {current()/../../side[device!=$DEVICE-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-NAME]/port/interface-name}</description>
+            <shutdown tags="delete"></shutdown>
             <switchport>
               <mode>
                 <trunk/>
@@ -28,9 +29,10 @@
             </dampening>
             <load-interval>30</load-interval>
           </TenGigabitEthernet>
-          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-NAME]/port[interface-type = 'GigabitEthernet']">
+          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'GigabitEthernet']">
             <name>{current()/interface-name}</name>
             <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-NAME]/device} {current()/../../side[device!=$DEVICE-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-NAME]/port/interface-name}</description>
+            <shutdown tags="delete"></shutdown>
             <switchport>
               <mode>
                 <trunk/>

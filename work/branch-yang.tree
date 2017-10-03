@@ -1,0 +1,460 @@
+module: branch
+   +--rw branch-service
+      +--rw branch* [name]
+      |  +--rw name                        string
+      |  +---x check-sync                  
+      |  |  +---w input     
+      |  |  |  +---w outformat?                  outformat4
+      |  |  |  +---w (depth)?
+      |  |  |  |  +--:(deep)
+      |  |  |  |  |  +---w deep?                       empty
+      |  |  |  |  +--:(shallow)
+      |  |  |  |     +---w shallow?                    empty
+      |  |  |  +---w suppress-positive-result?   empty
+      |  |  |  +---w (choice-lsa)?
+      |  |  |     +--:(use-lsa)
+      |  |  |     |  +---w use-lsa?                    empty
+      |  |  |     +--:(no-lsa)
+      |  |  |        +---w no-lsa?                     empty
+      |  |  +--ro output    
+      |  |     +--ro (outformat)?
+      |  |        +--:(in-sync)
+      |  |        |  +--ro in-sync?      boolean
+      |  |        +--:(case-xml)
+      |  |        |  +--ro result-xml
+      |  |        |     +--ro local-node
+      |  |        |     |  +--ro data    
+      |  |        |     +--ro lsa-node*
+      |  |        |        +--ro name?   string
+      |  |        |        +--ro data    
+      |  |        +--:(case-cli)
+      |  |        |  +--ro cli
+      |  |        |     +--ro local-node
+      |  |        |     |  +--ro data?   string
+      |  |        |     +--ro lsa-node*
+      |  |        |        +--ro name?   string
+      |  |        |        +--ro data?   string
+      |  |        +--:(case-native)
+      |  |           +--ro native
+      |  |              +--ro device* [name]
+      |  |                 +--ro name    string
+      |  |                 +--ro data?   string
+      |  +---x deep-check-sync             
+      |  |  +---w input     
+      |  |  |  +---w outformat?                  outformat-deep-check-sync
+      |  |  |  +---w suppress-positive-result?   empty
+      |  |  |  +---w (choice-lsa)?
+      |  |  |     +--:(use-lsa)
+      |  |  |     |  +---w use-lsa?                    empty
+      |  |  |     +--:(no-lsa)
+      |  |  |        +---w no-lsa?                     empty
+      |  |  +--ro output    
+      |  |     +--ro (outformat)?
+      |  |        +--:(case-xml)
+      |  |        |  +--ro result-xml
+      |  |        |     +--ro local-node
+      |  |        |     |  +--ro data    
+      |  |        |     +--ro lsa-service* [service-id]
+      |  |        |        +--ro service-id    instance-identifier
+      |  |        |        +--ro data          
+      |  |        +--:(case-cli)
+      |  |        |  +--ro cli
+      |  |        |     +--ro local-node
+      |  |        |     |  +--ro data?   string
+      |  |        |     +--ro lsa-service* [service-id]
+      |  |        |        +--ro service-id    instance-identifier
+      |  |        |        +--ro data?         string
+      |  |        +--:(case-sync)
+      |  |           +--ro sync-result
+      |  |              +--ro local-node
+      |  |              |  +--ro in-sync?   boolean
+      |  |              +--ro lsa-service* [service-id]
+      |  |                 +--ro service-id    instance-identifier
+      |  |                 +--ro in-sync?      boolean
+      |  +---x re-deploy                   
+      |  |  +---w input     
+      |  |  |  +---w dry-run!
+      |  |  |  |  +---w outformat?   outformat3
+      |  |  |  +---w no-revision-drop?       empty
+      |  |  |  +---w no-networking?          empty
+      |  |  |  +---w (choice-sync-check)?
+      |  |  |  |  +--:(no-overwrite)
+      |  |  |  |  |  +---w no-overwrite?           empty
+      |  |  |  |  +--:(no-out-of-sync-check)
+      |  |  |  |     +---w no-out-of-sync-check?   empty
+      |  |  |  +---w commit-queue!
+      |  |  |  |  +---w tag?            string
+      |  |  |  |  +---w (operation-mode)?
+      |  |  |  |  |  +--:(async)
+      |  |  |  |  |  |  +---w async?          empty
+      |  |  |  |  |  +--:(sync)
+      |  |  |  |  |  |  +---w sync!
+      |  |  |  |  |  |     +---w (timeout-choice)?
+      |  |  |  |  |  |        +--:(timeout)
+      |  |  |  |  |  |        |  +---w timeout?    uint32
+      |  |  |  |  |  |        +--:(infinity)
+      |  |  |  |  |  |           +---w infinity?   empty
+      |  |  |  |  |  +--:(bypass)
+      |  |  |  |  |     +---w bypass?         empty
+      |  |  |  |  +---w block-others?   empty
+      |  |  |  |  +---w lock?           empty
+      |  |  |  |  +---w atomic?         boolean
+      |  |  |  +---w (choice-lsa)?
+      |  |  |  |  +--:(use-lsa)
+      |  |  |  |  |  +---w use-lsa?                empty
+      |  |  |  |  +--:(no-lsa)
+      |  |  |  |     +---w no-lsa?                 empty
+      |  |  |  +---w (depth)?
+      |  |  |  |  +--:(deep)
+      |  |  |  |  |  +---w deep?                   empty
+      |  |  |  |  +--:(shallow)
+      |  |  |  |     +---w shallow?                empty
+      |  |  |  +---w reconcile!
+      |  |  |     +---w (c-non-service-config)?
+      |  |  |        +--:(keep-non-service-config)
+      |  |  |        |  +---w keep-non-service-config?      empty
+      |  |  |        +--:(discard-non-service-config)
+      |  |  |           +---w discard-non-service-config?   empty
+      |  |  +--ro output    
+      |  |     +--ro (outformat)?
+      |  |     |  +--:(case-xml)
+      |  |     |  |  +--ro result-xml
+      |  |     |  |     +--ro local-node
+      |  |     |  |     |  +--ro data    
+      |  |     |  |     +--ro lsa-node*
+      |  |     |  |        +--ro name?   string
+      |  |     |  |        +--ro data    
+      |  |     |  +--:(case-cli)
+      |  |     |  |  +--ro cli
+      |  |     |  |     +--ro local-node
+      |  |     |  |     |  +--ro data?   string
+      |  |     |  |     +--ro lsa-node*
+      |  |     |  |        +--ro name?   string
+      |  |     |  |        +--ro data?   string
+      |  |     |  +--:(case-native)
+      |  |     |     +--ro native
+      |  |     |        +--ro device* [name]
+      |  |     |           +--ro name    string
+      |  |     |           +--ro data?   string
+      |  |     +--ro commit-queue
+      |  |        +--ro id?       -> /ncs:devices/commit-queue/queue-item/id
+      |  |        +--ro tag?      string
+      |  |        +--ro status?   enumeration
+      |  +---x reactive-re-deploy          
+      |  |  +--ro output    
+      |  |     +--ro commit-queue
+      |  |        +--ro id?       -> /ncs:devices/commit-queue/queue-item/id
+      |  |        +--ro tag?      string
+      |  |        +--ro status?   enumeration
+      |  +---x touch                       
+      |  +--ro modified
+      |  |  +--ro devices*        -> /ncs:devices/device/name
+      |  |  +--ro services*       instance-identifier
+      |  |  +--ro lsa-services*   instance-identifier
+      |  +--ro directly-modified
+      |  |  +--ro devices*        -> /ncs:devices/device/name
+      |  |  +--ro services*       instance-identifier
+      |  |  +--ro lsa-services*   instance-identifier
+      |  +---x get-modifications           
+      |  |  +---w input     
+      |  |  |  +---w outformat?   outformat2
+      |  |  |  +---w reverse?     empty
+      |  |  |  +---w (depth)?
+      |  |  |  |  +--:(deep)
+      |  |  |  |  |  +---w deep?        empty
+      |  |  |  |  +--:(shallow)
+      |  |  |  |     +---w shallow?     empty
+      |  |  |  +---w (choice-lsa)?
+      |  |  |     +--:(use-lsa)
+      |  |  |     |  +---w use-lsa?     empty
+      |  |  |     +--:(no-lsa)
+      |  |  |        +---w no-lsa?      empty
+      |  |  +--ro output    
+      |  |     +--ro (outformat)?
+      |  |        +--:(case-xml)
+      |  |        |  +--ro result-xml
+      |  |        |     +--ro local-node
+      |  |        |     |  +--ro data    
+      |  |        |     +--ro lsa-service* [service-id]
+      |  |        |        +--ro service-id    instance-identifier
+      |  |        |        +--ro data          
+      |  |        +--:(case-cli)
+      |  |           +--ro cli
+      |  |              +--ro local-node
+      |  |              |  +--ro data?   string
+      |  |              +--ro lsa-service* [service-id]
+      |  |                 +--ro service-id    instance-identifier
+      |  |                 +--ro data?         string
+      |  x--ro device-list*                string
+      |  +---x un-deploy                   
+      |  |  +---w input     
+      |  |  |  +---w dry-run!
+      |  |  |  |  +---w outformat?   outformat3
+      |  |  |  +---w no-revision-drop?       empty
+      |  |  |  +---w no-networking?          empty
+      |  |  |  +---w (choice-sync-check)?
+      |  |  |  |  +--:(no-overwrite)
+      |  |  |  |  |  +---w no-overwrite?           empty
+      |  |  |  |  +--:(no-out-of-sync-check)
+      |  |  |  |     +---w no-out-of-sync-check?   empty
+      |  |  |  +---w commit-queue!
+      |  |  |  |  +---w tag?            string
+      |  |  |  |  +---w (operation-mode)?
+      |  |  |  |  |  +--:(async)
+      |  |  |  |  |  |  +---w async?          empty
+      |  |  |  |  |  +--:(sync)
+      |  |  |  |  |  |  +---w sync!
+      |  |  |  |  |  |     +---w (timeout-choice)?
+      |  |  |  |  |  |        +--:(timeout)
+      |  |  |  |  |  |        |  +---w timeout?    uint32
+      |  |  |  |  |  |        +--:(infinity)
+      |  |  |  |  |  |           +---w infinity?   empty
+      |  |  |  |  |  +--:(bypass)
+      |  |  |  |  |     +---w bypass?         empty
+      |  |  |  |  +---w block-others?   empty
+      |  |  |  |  +---w lock?           empty
+      |  |  |  |  +---w atomic?         boolean
+      |  |  |  +---w (choice-lsa)?
+      |  |  |  |  +--:(use-lsa)
+      |  |  |  |  |  +---w use-lsa?                empty
+      |  |  |  |  +--:(no-lsa)
+      |  |  |  |     +---w no-lsa?                 empty
+      |  |  |  +---w ignore-refcount?        empty
+      |  |  +--ro output    
+      |  |     +--ro (outformat)?
+      |  |     |  +--:(case-xml)
+      |  |     |  |  +--ro result-xml
+      |  |     |  |     +--ro local-node
+      |  |     |  |     |  +--ro data    
+      |  |     |  |     +--ro lsa-node*
+      |  |     |  |        +--ro name?   string
+      |  |     |  |        +--ro data    
+      |  |     |  +--:(case-cli)
+      |  |     |  |  +--ro cli
+      |  |     |  |     +--ro local-node
+      |  |     |  |     |  +--ro data?   string
+      |  |     |  |     +--ro lsa-node*
+      |  |     |  |        +--ro name?   string
+      |  |     |  |        +--ro data?   string
+      |  |     |  +--:(case-native)
+      |  |     |     +--ro native
+      |  |     |        +--ro device* [name]
+      |  |     |           +--ro name    string
+      |  |     |           +--ro data?   string
+      |  |     +--ro commit-queue
+      |  |        +--ro id?       -> /ncs:devices/commit-queue/queue-item/id
+      |  |        +--ro tag?      string
+      |  |        +--ro status?   enumeration
+      |  +--ro used-by-customer-service*   -> /ncs:services/customer-service/object-id
+      |  +--ro commit-queue
+      |  |  +---x clear         
+      |  |  +--ro queue-item* [id]
+      |  |     +--ro id                         uint64
+      |  |     +--ro status?                    enumeration
+      |  |     +--ro cleared-by-admin?          empty
+      |  |     +--ro no-of-impacted-services?   uint32
+      |  |     +--ro failed-device* [name]
+      |  |     |  +--ro name           -> /ncs:devices/device/name
+      |  |     |  +--ro time?          yang:date-and-time
+      |  |     |  +--ro config-data?   string
+      |  |     |  +--ro error?         string
+      |  |     +---x admin-clear                
+      |  |     +---x delete                     
+      |  +--rw private
+      |  |  +--rw diff-set?               binary
+      |  |  +--rw forward-diff-set?       binary
+      |  |  +--rw device-list*            string
+      |  |  +--rw service-list*           instance-identifier
+      |  |  +--rw lsa-service-list*       instance-identifier
+      |  |  +--rw property-list
+      |  |  |  +--rw property* [name]
+      |  |  |     +--rw name     string
+      |  |  |     +--rw value?   string
+      |  |  +--rw re-deploy-counter?      int32
+      |  |  +--rw latest-commit-params?   binary
+      |  |  +--rw latest-u-info?          binary
+      |  +--ro log
+      |  |  +---x purge        
+      |  |  |  +---w input     
+      |  |  |  |  +---w type?         log-entry-t
+      |  |  |  |  +---w level?        log-entry-level-t
+      |  |  |  |  +---w older-than!
+      |  |  |  |     +---w (age-spec)?
+      |  |  |  |        +--:(seconds)
+      |  |  |  |        |  +---w seconds?   uint16
+      |  |  |  |        +--:(minutes)
+      |  |  |  |        |  +---w minutes?   uint16
+      |  |  |  |        +--:(hours)
+      |  |  |  |        |  +---w hours?     uint16
+      |  |  |  |        +--:(days)
+      |  |  |  |        |  +---w days?      uint16
+      |  |  |  |        +--:(weeks)
+      |  |  |  |           +---w weeks?     uint16
+      |  |  |  +--ro output    
+      |  |  |     +--ro result?               string
+      |  |  |     +--ro purged-log-entries?   uint16
+      |  |  +--ro log-entry* [when]
+      |  |     +--ro when       yang:date-and-time
+      |  |     +--ro type       log-entry-t
+      |  |     +--ro level      log-entry-level-t
+      |  |     +--ro message?   string
+      |  +--rw topology
+      |  |  +--rw device* [name]
+      |  |  |  +--rw name        string
+      |  |  |  +--rw uid?        string
+      |  |  |  +--rw type
+      |  |  |  |  +--rw role?    -> /branch-service/branch-policies/device/role/name
+      |  |  |  |  +--rw model?   -> /branch-service/branch-policies/device/role[name=current()/../role]/model/name
+      |  |  |  +--rw policies
+      |  |  |     +--rw registration* [policy-name]
+      |  |  |     |  +--rw policy-name    -> /branch-service/branch-policies/device/registration/name
+      |  |  |     +--rw loopback* [policy-name interface-number]
+      |  |  |     |  +--rw policy-name         -> /branch-service/branch-policies/device/loopback/name
+      |  |  |     |  +--rw interface-number    uint8
+      |  |  |     |  +--rw ip-address?         inet:ipv4-address
+      |  |  |     +--rw static-route* [policy-name prefix mask]
+      |  |  |     |  +--rw policy-name           -> /branch-service/branch-policies/device/static-route/name
+      |  |  |     |  +--rw prefix                inet:ipv4-address
+      |  |  |     |  +--rw mask                  inet:ipv4-address
+      |  |  |     |  +--rw forwarding-address?   inet:ipv4-address
+      |  |  |     +--rw ospf* [policy-name]
+      |  |  |     |  +--rw policy-name    -> /branch-service/branch-policies/device/ospf/name
+      |  |  |     |  +--rw ip-address?    inet:ipv4-address
+      |  |  |     +--rw netflow* [policy-name]
+      |  |  |     |  +--rw policy-name             -> /branch-service/branch-policies/device/netflow/name
+      |  |  |     |  +--rw collector-ip-address?   inet:ipv4-address
+      |  |  |     +--rw routing* [policy-name]
+      |  |  |     |  +--rw policy-name          -> /branch-service/branch-policies/device/routing/name
+      |  |  |     |  +--rw as-number?           uint32
+      |  |  |     |  +--rw aggregate-address* [ip-address ip-mask]
+      |  |  |     |  |  +--rw ip-address    inet:ipv4-address
+      |  |  |     |  |  +--rw ip-mask       inet:ipv4-address
+      |  |  |     |  +--rw ebgp
+      |  |  |     |     +--rw remote-as-number?   uint32
+      |  |  |     |     +--rw peer-ip-address?    inet:ipv4-address
+      |  |  |     |     +--rw carrier-name?       string
+      |  |  |     +--rw switchstack* [policy-name]
+      |  |  |        +--rw policy-name      -> /branch-service/branch-policies/device/switchstack/name
+      |  |  |        +--rw switch-number?   uint32
+      |  |  +--rw connection* [name]
+      |  |     +--rw name    string
+      |  |     +--rw side* [name]
+      |  |     |  +--rw name      enumeration
+      |  |     |  +--rw device?   -> ../../../device/name
+      |  |     |  +--rw port* [interface-type interface-name]
+      |  |     |     +--rw interface-type    union
+      |  |     |     +--rw interface-name    string
+      |  |     |     +--rw ip-address?       inet:ipv4-address
+      |  |     |     +--rw ip-mask?          inet:ipv4-address
+      |  |     |     +--rw peer-interface?   string
+      |  |     +--rw type
+      |  |        +--rw (type)?
+      |  |           +--:(core-router)
+      |  |           |  +--rw core-router
+      |  |           |     +--rw policy-name?   -> /branch-service/branch-policies/connection/core-router/name
+      |  |           +--:(core-interlink)
+      |  |           |  +--rw core-interlink
+      |  |           |     +--rw policy-name?   -> /branch-service/branch-policies/connection/core-interlink/name
+      |  |           +--:(access-core)
+      |  |           |  +--rw access-core
+      |  |           |     +--rw policy-name?   -> /branch-service/branch-policies/connection/access-core/name
+      |  |           +--:(router-wan)
+      |  |           |  +--rw router-wan
+      |  |           |     +--rw policy-name?   -> /branch-service/branch-policies/connection/router-wan/name
+      |  |           +--:(router-interlink)
+      |  |           |  +--rw router-interlink
+      |  |           |     +--rw policy-name?   -> /branch-service/branch-policies/connection/router-interlink/name
+      |  |           +--:(access)
+      |  |              +--rw access
+      |  |                 +--rw policy-name?      -> /branch-service/branch-policies/connection/access/name
+      |  |                 +--rw access-type?      enumeration
+      |  |                 +--rw helper-address?   inet:ipv4-address
+      |  |                 +--rw interface-type?   physical-interface-type
+      |  |                 +--rw interface-name?   string
+      |  +---x load-topology-template      
+      |     +---w input     
+      |        +---w topology-template?   -> /branch-service/branch-policies/branch/topology-templates/name
+      +--rw branch-policies
+         +--rw branch
+         |  +--rw topology-templates* [name]
+         |     +--rw name                   string
+         |     +--rw model-template-file?   string
+         +--rw connection
+         |  +--rw core-router* [name]
+         |  |  +--rw name           string
+         |  |  +--rw core
+         |  |  |  +--rw template?   string
+         |  |  +--rw router
+         |  |  |  +--rw template?   string
+         |  |  +--rw access-core
+         |  |     +--rw template?   string
+         |  +--rw core-interlink* [name]
+         |  |  +--rw name    string
+         |  |  +--rw core
+         |  |     +--rw template?   string
+         |  +--rw access-core* [name]
+         |  |  +--rw name      string
+         |  |  +--rw access
+         |  |  |  +--rw template?   string
+         |  |  +--rw core
+         |  |     +--rw template?   string
+         |  +--rw router-wan* [name]
+         |  |  +--rw name      string
+         |  |  +--rw router
+         |  |  |  +--rw template?   string
+         |  |  +--rw core
+         |  |     +--rw template?   string
+         |  +--rw router-interlink* [name]
+         |  |  +--rw name      string
+         |  |  +--rw router
+         |  |     +--rw template?   string
+         |  +--rw access* [name]
+         |     +--rw name           string
+         |     +--rw access
+         |     |  +--rw template?   string
+         |     +--rw access-core
+         |        +--rw template?   string
+         +--rw device
+            +--rw role* [name]
+            |  +--rw name        device-role
+            |  +--rw model* [name]
+            |  |  +--rw name        string
+            |  |  +--rw template?   string
+            |  +--rw policies
+            |     +--rw general*   -> ../../../general/name
+            |     +--rw vtp*       -> ../../../vtp/name
+            |     +--rw ospf*      -> ../../../ospf/name
+            |     +--rw netflow*   -> ../../../netflow/name
+            +--rw general* [name]
+            |  +--rw name        string
+            |  +--rw template?   string
+            +--rw registration* [name]
+            |  +--rw name        string
+            |  +--rw template?   string
+            +--rw static-route* [name]
+            |  +--rw name        string
+            |  +--rw template?   string
+            +--rw loopback* [name]
+            |  +--rw name        string
+            |  +--rw template?   string
+            +--rw vtp* [name]
+            |  +--rw name           string
+            |  +--rw domain-name?   string
+            |  +--rw template?      string
+            +--rw ospf* [name]
+            |  +--rw name        string
+            |  +--rw vlan?       string
+            |  +--rw template?   string
+            +--rw netflow* [name]
+            |  +--rw name                    string
+            |  +--rw connection-type*        enumeration
+            |  +--rw collector-ip-address?   inet:ipv4-address
+            |  +--rw template?               string
+            +--rw switchstack* [name]
+            |  +--rw name        string
+            |  +--rw template?   string
+            +--rw routing* [name]
+               +--rw name        string
+               +--rw template?   string
+augment /ncs:devices/ncs:device:
+   +--rw uid?   string

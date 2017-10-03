@@ -22,6 +22,7 @@ all: packages netsim
 start: stop netsim-start
 	ncs-netsim start
 	ncs
+	echo "request devices sync-from" | ncs_cli -u admin
 
 stop: netsim-stop
 	ncs-netsim stop || true

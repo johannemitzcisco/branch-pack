@@ -4,9 +4,29 @@
     <name>{$DEVICE-NAME}</name>
       <config>
         <interface xmlns="urn:ios">
-          <TenGigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-NAME]/port[interface-type = 'TenGigabitEthernet']">
+          <Vlan foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'GigabitEthernet']}">
+            <name>100</name>
+            <description>VLAN for {current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/device} {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-name}</description>
+            <shutdown tags="delete"></shutdown>
+            <ip>
+              <address>
+                <primary>
+                  <address>{current()/ip-address}</address>
+                  <mask>{current()/ip-mask}</mask>
+                </primary>
+              </address>
+              <proxy-arp>false</proxy-arp>
+              <redirects>false</redirects>
+              <ospf>
+                <network>point-to-point</network>
+                <cost>10</cost>
+              </ospf>
+            </ip>
+            <load-interval>30</load-interval>
+          </Vlan>
+          <!-- TenGigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'TenGigabitEthernet']">
             <name>{current()/interface-name}</name>
-            <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-NAME]/device} {current()/../../side[device!=$DEVICE-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-NAME]/port/interface-name}</description>
+            <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/device} {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-name}</description>
             <switchport tags="delete"></switchport>
             <dampening>
             </dampening>
@@ -25,28 +45,16 @@
               </ospf>
             </ip>
             <load-interval>30</load-interval>
-          </TenGigabitEthernet>
-          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-NAME]/port[interface-type = 'GigabitEthernet']">
+          </TenGigabitEthernet-->
+          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'GigabitEthernet']">
             <name>{current()/interface-name}</name>
-            <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-NAME]/device} {current()/../../side[device!=$DEVICE-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-NAME]/port/interface-name}</description>
-            <switchport tags="delete"></switchport>
-            <dampening>
-            </dampening>
-            <ip>
-              <address>
-                <primary>
-                  <address>{current()/ip-address}</address>
-                  <mask>{current()/ip-mask}</mask>
-                </primary>
-              </address>
-              <proxy-arp>false</proxy-arp>
-              <redirects>false</redirects>
-              <ospf>
-                <network>point-to-point</network>
-                <cost>10</cost>
-              </ospf>
-            </ip>
-            <load-interval>30</load-interval>
+            <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/device} {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-name}</description>
+            <shutdown tags="delete"></shutdown>
+           <switchport>
+             <access>
+               <vlan>100</vlan>
+             </access>
+           </switchport>
           </GigabitEthernet>
         </interface>
       </config>

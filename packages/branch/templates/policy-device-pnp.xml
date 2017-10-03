@@ -1,0 +1,26 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <pnp xmlns="http://tail-f.com/ned/cisco/pnp">
+  <map>
+    <id>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/uid}</id>
+    <device-name>{$DEVICE-NAME}</device-name>
+    <authgroup>lab</authgroup>
+    <username>cisco</username>
+    <port>22</port>
+    <day0-file>day0.cfg</day0-file>
+    <cfg-properties>
+      <variable>
+        <name>HOSTNAME</name>
+        <value>{$DEVICE-NAME}</value>
+      </variable>
+    </cfg-properties>
+  </map>
+  </pnp>
+  <kickers xmlns="http://tail-f.com/ns/kicker">
+  <data-kicker>
+    <id>branch-service-{$SERVICE-NAME}</id>
+    <monitor>/devices/device[name='{$DEVICE-NAME}']</monitor>
+    <kick-node xmlns:branch="http://example.com/branch">/branch:branch-service/branch:branch[branch:name='{$SERVICE-NAME}']</kick-node>
+    <action-name>reactive-re-deploy</action-name>
+  </data-kicker>
+  </kickers>
+</config-template>

@@ -10,166 +10,7 @@
           <forward-protocol>
             <nd/>
           </forward-protocol>
-          <!-- access-list>
-            <extended>
-              <ext-named-acl>
-                <name>Branch_Office</name>
-                <ext-access-list-rule>
-                  <rule>remark Branch Office 2.0</rule>
-                </ext-access-list-rule>
-              </ext-named-acl>
-            </extended>
-          </access-list -->
-        </ip>
-        <!-- vtp xmlns="urn:ios">
-          <domain>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/vtp/domain-name}</domain>
-          <mode>transparent</mode>
-        </vtp -->
-        <!--vlan xmlns="urn:ios">
-          <vlan-list>
-            <id>9</id>
-            <name>OSPF_VLAN</name>
-          </vlan-list>
-        </vlan -->
-        <interface xmlns="urn:ios">
-          <!-- Loopback>
-            <name>0</name>
-            <description>branch:core:&lt;site address></description>
-            <ip>
-              <address>
-                <primary>
-                  <address>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/loopback-ip-address}</address>
-                  <mask>255.255.255.255</mask>
-                </primary>
-              </address>
-            </ip>
-          </Loopback -->
-          <!-- Port-channel foreach="{/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'Port-channel']}">
-            <name>{current()/interface-name}</name>
-            <description>TRUNK:&lt;Remote Core Switch></description>
-            <switchport>
-              <mode>
-                <trunk/>
-              </mode>
-              <trunk>
-                <allowed>
-                  <vlan>
-                    <vlans>1</vlans>
-                    <vlans>2</vlans>
-                    <vlans>3</vlans>
-                    <vlans>4</vlans>
-                    <vlans>5</vlans>
-                    <vlans>6</vlans>
-                  </vlan>
-                </allowed>
-              </trunk>
-            </switchport>
-            <dampening>
-            </dampening>
-          </Port-channel -->
-          <!-- TenGigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection/endpoint[device = $DEVICE-NAME and interface-type = 'TenGigabitEthernet']}">
-            <name>{current()/interface-name}</name>
-            <description>&lt;description></description>
-            <dampening>
-            </dampening>
-            <ip>
-              <address>
-                <primary>
-                  <address>{current()/ip-address}</address>
-                  <mask>{current()/ip-mask}</mask>
-                </primary>
-              </address>
-              <proxy-arp>false</proxy-arp>
-            </ip>
-            <load-interval>30</load-interval>
-          </TenGigabitEthernet -->
-          <!-- TenGigabitEthernet>
-            <name>1/3</name>
-            <description>TRUNK:&lt;Remote Core Switch>:&lt;Port></description>
-            <switchport>
-              <mode>
-                <trunk/>
-              </mode>
-              <trunk>
-                <allowed>
-                  <vlan>
-                    <vlans>1</vlans>
-                    <vlans>2</vlans>
-                  </vlan>
-                </allowed>
-              </trunk>
-            </switchport>
-            <channel-group>
-              <number>1</number>
-              <mode>active</mode>
-            </channel-group>
-            <dampening>
-            </dampening>
-            <load-interval>30</load-interval>
-          </TenGigabitEthernet -->
-          <!-- TenGigabitEthernet>
-            <name>1/5</name>
-            <description>&lt;description></description>
-            <dampening>
-            </dampening>
-            <ip>
-              <address>
-                <primary>
-                  <address>10.10.2.2</address>
-                  <mask>255.255.255.254</mask>
-                </primary>
-              </address>
-              <ospf>
-                <network>point-to-point</network>
-                <cost>10</cost>
-              </ospf>
-            </ip>
-            <load-interval>30</load-interval>
-            <carrier-delay>
-              <msec>0</msec>
-            </carrier-delay>
-          </TenGigabitEthernet -->
-          <!-- Vlan>
-            <name>9</name>
-            <description>SVI:OSPF VLAN</description>
-            <ip>
-              <address>
-                <primary>
-                  <address>10.10.10.1</address>
-                  <mask>255.255.255.254</mask>
-                </primary>
-              </address>
-              <ospf>
-                <cost>5</cost>
-              </ospf>
-              <proxy-arp>false</proxy-arp>
-            </ip>
-          </Vlan -->
-        </interface>
-        <!-- spanning-tree xmlns="urn:ios">
-          <etherchannel>
-            <guard>
-              <misconfig/>
-            </guard>
-          </etherchannel>
-          <extend>
-            <system-id/>
-          </extend>
-          <loopguard>
-            <default/>
-          </loopguard>
-          <optimize>
-            <bpdu>
-              <transmission>true</transmission>
-            </bpdu>
-          </optimize>
-          <portfast>
-            <bpduguard>
-              <default/>
-            </bpduguard>
-          </portfast>
-          <mode>rapid-pvst</mode>
-        </spanning-tree -->
+      </ip>
         <errdisable xmlns="urn:ios">
           <recovery>
             <cause>
@@ -187,7 +28,7 @@
             <interval>900</interval>
           </recovery>
         </errdisable>
-        <monitor xmlns="urn:ios">
+        <!-- monitor xmlns="urn:ios">
           <session>
             <id>1</id>
             <destination>
@@ -196,8 +37,8 @@
               </interface>
             </destination>
           </session>
-        </monitor>
-        <mpls xmlns="urn:ios">
+        </monitor -->
+        <!-- NOT WORKING ON DEVICE mpls xmlns="urn:ios">
           <mpls-ip-conf>
             <ip>
               <propagate-ttl-conf>
@@ -205,23 +46,7 @@
               </propagate-ttl-conf>
             </ip>
           </mpls-ip-conf>
-        </mpls>
-        <!-- router xmlns="urn:ios">
-          <ospf>
-            <id>1</id>
-            <log-adjacency-changes>
-            </log-adjacency-changes>
-            <passive-interface>
-              <default/>
-            </passive-interface>
-            <router-id>10.10.10.2</router-id>
-            <network>
-              <ip>0.0.0.0</ip>
-              <mask>255.255.255.255</mask>
-              <area>0</area>
-            </network>
-          </ospf>
-        </router -->
+        </mpls -->
       </config>
   </device>
   </devices>

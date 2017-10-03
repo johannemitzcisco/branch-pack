@@ -1,0 +1,106 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>lab-hou-4451-router</name>
+      <config>
+        <tailfned xmlns="urn:ios">
+          <police>cirmode</police>
+        </tailfned>
+        <version xmlns="urn:ios">15.6</version>
+        <platform xmlns="urn:ios">
+          <punt-keepalive>
+            <disable-kernel-core>false</disable-kernel-core>
+          </punt-keepalive>
+        </platform>
+        <hostname xmlns="urn:ios">Houston-RTR1</hostname>
+        <vrf xmlns="urn:ios">
+          <definition>
+            <name>Mgmt-intf</name>
+            <address-family>
+              <ipv4>
+              </ipv4>
+              <ipv6>
+              </ipv6>
+            </address-family>
+          </definition>
+        </vrf>
+        <enable xmlns="urn:ios">
+          <password>
+            <type>7</type>
+            <secret>070C285F4D06</secret>
+          </password>
+        </enable>
+        <ip xmlns="urn:ios">
+          <route>
+            <vrf>
+              <name>Mgmt-intf</name>
+              <ip-route-forwarding-list>
+                <prefix>0.0.0.0</prefix>
+                <mask>0.0.0.0</mask>
+                <forwarding-address>10.201.74.65</forwarding-address>
+              </ip-route-forwarding-list>
+            </vrf>
+          </route>
+        </ip>
+        <username xmlns="urn:ios">
+          <name>cisco</name>
+          <password>
+            <type>7</type>
+            <secret>104D000A0618</secret>
+          </password>
+        </username>
+        <interface xmlns="urn:ios">
+          <GigabitEthernet>
+            <name>0</name>
+            <negotiation>
+              <auto>true</auto>
+            </negotiation>
+            <vrf>
+              <forwarding>Mgmt-intf</forwarding>
+            </vrf>
+            <ip>
+              <address>
+                <primary>
+                  <address>10.201.74.71</address>
+                  <mask>255.255.255.240</mask>
+                </primary>
+              </address>
+            </ip>
+          </GigabitEthernet>
+        </interface>
+        <line xmlns="urn:ios">
+          <console>
+            <first>0</first>
+            <login>
+              <local/>
+            </login>
+            <password>
+              <type>7</type>
+              <secret>121A0C041104</secret>
+            </password>
+            <stopbits>1</stopbits>
+          </console>
+          <aux>
+            <first>0</first>
+            <stopbits>1</stopbits>
+          </aux>
+          <vty>
+            <first>0</first>
+            <last>4</last>
+            <logging>
+              <synchronous>
+              </synchronous>
+            </logging>
+            <login>
+            </login>
+            <password>
+              <type>7</type>
+              <secret>05080F1C2243</secret>
+            </password>
+          </vty>
+        </line>
+        <xxyyzztop xmlns="urn:ios">0</xxyyzztop>
+      </config>
+  </device>
+  </devices>
+</config>

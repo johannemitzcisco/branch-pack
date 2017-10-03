@@ -8,7 +8,7 @@ Context node: /branch-service
 Result: "ios0"
 Setting /devices/device[name='ios0']/config/ios:hostname to "ios0"
 Operation 'merge' on non-existing node: /devices/device[name='ios0']/config/aaa/accounting/delay-start (from file "wan-router-base-asr-template.xml", line 9)
-Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:ip/source-route (from file "wan-router-base-asr-template.xml", line 14)
+Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:ip/source-route (from file "wan-router-base-asr-template.xml", line 14) 
 Fetching literal "true" (from file "wan-router-base-asr-template.xml", line 14)
 Setting /devices/device[name='ios0']/config/ios:ip/source-route to "true"
 Operation 'merge' on existing node: /devices/device[name='ios0']/config/ios:ip/gratuitous-arps-conf/gratuitous-arps (from file "wan-router-base-asr-template.xml", line 16)

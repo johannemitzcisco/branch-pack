@@ -4,9 +4,10 @@
     <name>{$DEVICE-NAME}</name>
       <config>
         <interface xmlns="urn:ios">
-          <TenGigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-NAME]/port[interface-type = 'TenGigabitEthernet']">
+          <TenGigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'TenGigabitEthernet']">
             <name>{current()/interface-name}</name>
-            <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-NAME]/device} {current()/../../side[device!=$DEVICE-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-NAME]/port/interface-name}</description>
+            <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/device} {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-name}</description>
+            <shutdown tags="delete"></shutdown>
             <switchport tags="delete"></switchport>
             <dampening>
             </dampening>

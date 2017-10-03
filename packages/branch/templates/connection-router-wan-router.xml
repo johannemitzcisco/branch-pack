@@ -4,8 +4,9 @@
     <name>{$DEVICE-NAME}</name>
       <config>
         <interface xmlns="urn:ios">
-          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-NAME]/port[interface-type = 'GigabitEthernet']">
+          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'GigabitEthernet']">
             <name>{current()/interface-name}</name>
+            <shutdown tags="delete"></shutdown>
             <description>WAN Connection</description>
             <ip>
               <address>
@@ -15,9 +16,43 @@
                 </primary>
               </address>
             </ip>
-            <bandwidth>
+            <!-- bandwidth>
               <kilobits>500</kilobits>
-            </bandwidth>
+            </bandwidth -->
+            <!-- bfd>
+              <interval>
+                <msecs>500</msecs>
+                <min_rx>500</min_rx>
+                <multiplier>3</multiplier>
+              </interval>
+            </bfd -->
+            <logging>
+              <event>
+                <link-status>true</link-status>
+              </event>
+            </logging>
+            <cdp>
+              <enable>true</enable>
+            </cdp>
+            <load-interval>30</load-interval>
+            <dampening>
+            </dampening>
+          </GigabitEthernet>
+          <TenGigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'TenGigabitEthernet']">
+            <name>{current()/interface-name}</name>
+            <description>WAN Connection</description>
+            <shutdown tags="delete"></shutdown>
+            <ip>
+              <address>
+                <primary>
+                  <address>{current()/ip-address}</address>
+                  <mask>{current()/ip-mask}</mask>
+                </primary>
+              </address>
+            </ip>
+            <!-- bandwidth>
+              <kilobits>500</kilobits>
+            </bandwidth -->
             <bfd>
               <interval>
                 <msecs>500</msecs>
@@ -36,7 +71,7 @@
             <load-interval>30</load-interval>
             <dampening>
             </dampening>
-          </GigabitEthernet>
+          </TenGigabitEthernet>
         </interface>
       </config>
   </device>

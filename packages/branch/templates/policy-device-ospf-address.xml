@@ -6,11 +6,11 @@
         <interface xmlns="urn:ios">
           <!-- Vlan when="{/branch-policies/device/ospf[name=$POLICY-NAME]/vlan}" -->
           <Vlan>
-            <name>{/branch-policies/device/ospf[name=/branch-policies/device/role[name=/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/type/role]/policies/ospf]/vlan}</name>
+            <name>{/branch-policies/device/ospf[name=/branch-policies/device/role[name=/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/type/role]/policies/ospf]/vlan}</name>
             <ip>
               <address>
                 <primary>
-                  <address>{/branch[name=$SERVICE-NAME]/topology/device[name=$DEVICE-NAME]/policies/ospf/ip-address}</address>
+                  <address>{/branch[name=$SERVICE-NAME]/topology/device[topology-name=$DEVICE-TOPOLOGY-NAME]/policies/ospf/ip-address}</address>
                 </primary>
               </address>
             </ip>

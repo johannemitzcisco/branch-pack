@@ -4,8 +4,17 @@
     <name>{$DEVICE-NAME}</name>
       <config>
         <flow xmlns="urn:ios">
-          <!-- This record entry is a dummy so that we can use the flow/monitor entry -->
           <record>
+            <!-- This record entry is a dummy so that we can use the flow/monitor entry -->
+            <name>DUMMY</name>
+            <type>performance-monitor</type>
+            <match>
+              <transport>
+                <source-port/>
+              </transport>
+            </match>
+          </record>
+          <!-- record>
             <name>DUMMY</name>
             <match>
               <application>
@@ -14,7 +23,7 @@
                 </name>
               </application>
             </match>
-          </record>
+          </record -->
           <exporter>
             <name>AIG_Default</name>
             <description>AIG Default Netflow export to regional server</description>
@@ -22,7 +31,7 @@
               <address>{/branch-policies/device/netflow[name=$POLICY-NAME]/collector-ip-address}</address>
             </destination>
             <source>
-              <Loopback>0</Loopback>
+              <Loopback>1</Loopback>
             </source>
             <transport>
               <udp>9995</udp>
@@ -64,7 +73,7 @@
           </monitor>
         </flow>
         <interface xmlns="urn:ios">
-          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-wan and side/device=$DEVICE-NAME]/side/port[interface-type = 'GigabitEthernet']">
+          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-wan and side/device=$DEVICE-TOPOLOGY-NAME]/side/port[interface-type = 'GigabitEthernet']">
             <name>{current()/interface-name}</name>
             <ip>
               <flow>

@@ -1,11 +1,10 @@
 <config xmlns="http://tail-f.com/ns/config/1.0">
   <branch-service xmlns="http://example.com/branch">
   <branch>
-    <name>nyc</name>
+    <name>NYC</name>
     <topology>
       <device>
-        <topology-name>router</topology-name>
-        <hostname>lab-ny-6840-router</hostname>
+        <name>lab-ny-6840-router</name>
         <type>
           <role>router</role>
           <model>C6824-X-LE-40G</model>
@@ -74,7 +73,7 @@
         <name>router-to-wan</name>
         <side>
           <name>A</name>
-          <device>router</device>
+          <device>lab-ny-6840-router</device>
           <port>
             <interface-type>TenGigabitEthernet</interface-type>
             <interface-name>1/2</interface-name>
