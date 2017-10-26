@@ -49,6 +49,56 @@ module branch {
     }
   }
 
+  typedef test-status {
+    type enumeration {
+      enum "UNKNOWN";
+      enum "PASSED";
+      enum "FAILED";
+    }
+  }
+
+  grouping test-service {
+    tailf:action test-service {
+      tailf:info "Test connectivity to the SFO branch";
+      tailf:actionpoint testservice-action;
+      input {
+      }
+      output {
+        leaf test-status {
+          type string;
+        }
+      }
+    }
+
+    leaf service-status {
+      type test-status;
+      default "UNKNOWN";
+    }
+    list test {
+      key "name";
+      leaf name {
+        type string;
+      }
+      leaf status {
+        type test-status;
+        default "UNKNOWN";
+      }
+      leaf device {
+        type string;
+      }
+      leaf command {
+        type string;
+      }
+      leaf-list match-criteria {
+        tailf:info "Values that if found together on a line of output signifies success";
+        type string;
+      }
+      leaf command-output {
+        type string;
+      }
+    }
+  }
+
   grouping device-general-config-grouping {
     list registration {
       key "policy-name";
@@ -188,26 +238,6 @@ module branch {
 
     list branch {
 
-      leaf test-status {
-        type enumeration {
-          enum "UNKNOWN";
-          enum "PASSED";
-          enum "FAILD";
-        }
-        default "UNKNOWN";
-      }
-      container tests {
-        leaf command {
-          type string;
-        }
-        leaf output-line-match {
-          type string;
-        }
-        leaf line-contains {
-          type string;
-        }
-      }
-
       key name;
       leaf name {
         tailf:info "Unique branch id/name";
@@ -216,6 +246,8 @@ module branch {
 
       uses ncs:service-data;
       ncs:servicepoint branch-servicepoint;
+
+      uses test-service;
 
       container topology {
         list device {
@@ -512,6 +544,12 @@ module branch {
                 path "../../../netflow/name";
               }
             }
+            leaf-list ntp {
+              max-elements 1;
+              type leafref {
+                path "../../../ntp/name";
+              }
+            }
           }
         }
         list general {
@@ -585,6 +623,18 @@ module branch {
             }
           }
           leaf collector-ip-address {
+            type inet:ipv4-address;
+          }
+          leaf template {
+            type string;
+          }
+        }
+        list ntp {
+          key name;
+          leaf name {
+            type string;
+          }
+          leaf ip-address {
             type inet:ipv4-address;
           }
           leaf template {

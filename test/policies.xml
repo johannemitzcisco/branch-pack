@@ -12,6 +12,7 @@
             <!-- general>ACCESS-LIST</general -->
             <!-- netflow>NETFLOW</netflow -->
             <ospf>OSPF-NO-VLAN</ospf>
+            <ntp>NTP</ntp>
           </policies>
         </role>
         <role>
@@ -24,6 +25,7 @@
             <!-- general>ACCESS-LIST</general -->
             <!-- netflow>NETFLOW</netflow -->
             <ospf>OSPF-NO-VLAN</ospf>
+            <ntp>NTP</ntp>
           </policies>
         </role>
         <role>
@@ -37,6 +39,7 @@
             <general>SPANNING-TREE</general>
             <!-- vtp>VTP-POLICY</vtp -->
             <ospf>OSPF-WITH-VLAN</ospf>
+            <ntp>NTP</ntp>
           </policies>
         </role>
         <role>
@@ -50,6 +53,7 @@
             <general>SPANNING-TREE-ACCESS</general>
             <!-- vtp>VTP-POLICY</vtp -->
             <ospf>OSPF-ACCESS</ospf>
+            <ntp>NTP</ntp>
           </policies>
         </role>
         <role>
@@ -63,6 +67,7 @@
             <general>SPANNING-TREE</general>
             <!-- vtp>VTP-POLICY</vtp -->
             <ospf>OSPF-WITH-VLAN</ospf>
+            <ntp>NTP</ntp>
           </policies>
         </role>
         <registration>
@@ -121,6 +126,11 @@
           <collector-ip-address>33.33.33.33</collector-ip-address>
           <connection-type>router-wan</connection-type>
         </netflow>
+        <ntp>
+          <name>NTP</name>
+          <template>policy-device-ntp</template>
+          <ip-address>8.8.8.8</ip-address>
+        </ntp>
         <routing>
           <name>ROUTING</name>
           <template>policy-device-routing</template>
@@ -139,7 +149,18 @@
             <template>connection-core-router-core</template>
           </access-core>
         </core-router>
-        <!-- access-router><name>ACCESS-ROUTER</name><access-core><template>connection-core-router-core</template></access-core><router><template>connection-core-router-router</template></router></access-router -->
+        <core-router>
+          <name>CORE-ROUTER-VLAN</name>
+          <core>
+            <template>connection-core-router-core-vlan</template>
+          </core>
+          <router>
+            <template>connection-core-router-router</template>
+          </router>
+          <access-core>
+            <template>connection-core-router-core-vlan</template>
+          </access-core>
+        </core-router>
         <core-interlink>
           <name>CORE-INTERLINK</name>
           <core>
@@ -182,8 +203,12 @@
       </connection>
       <branch>
         <topology-templates>
-          <name>Single Device Branch</name>
+          <name>Single-Device-Branch</name>
           <model-template-file>branch-template-one-device</model-template-file>
+        </topology-templates>
+        <topology-templates>
+          <name>Two-Device-Branch</name>
+          <model-template-file>branch-template-two-device</model-template-file>
         </topology-templates>
       </branch>
     </branch-policies>

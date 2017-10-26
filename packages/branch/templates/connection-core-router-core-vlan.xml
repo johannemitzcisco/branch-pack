@@ -4,13 +4,10 @@
     <name>{$DEVICE-NAME}</name>
       <config>
         <interface xmlns="urn:ios">
-          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'GigabitEthernet']">
-            <name>{current()/interface-name}</name>
-            <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/device} {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-name}</description>
+          <Vlan foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'GigabitEthernet']}">
+            <name>100</name>
+            <description>VLAN for {current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/device} {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-name}</description>
             <shutdown tags="delete"></shutdown>
-            <switchport tags="delete"></switchport>
-            <dampening>
-            </dampening>
             <ip>
               <address>
                 <primary>
@@ -26,7 +23,7 @@
               </ospf>
             </ip>
             <load-interval>30</load-interval>
-          </GigabitEthernet>
+          </Vlan>
           <!-- TenGigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'TenGigabitEthernet']">
             <name>{current()/interface-name}</name>
             <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/device} {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-name}</description>
@@ -49,6 +46,16 @@
             </ip>
             <load-interval>30</load-interval>
           </TenGigabitEthernet-->
+          <GigabitEthernet foreach="{/branch[name=$SERVICE-NAME]/topology/connection[name=$CONNECTION-NAME]/side[device=$DEVICE-TOPOLOGY-NAME]/port[interface-type = 'GigabitEthernet']">
+            <name>{current()/interface-name}</name>
+            <description>{current()/../../type//policy-name} to {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/device} {current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-type}{current()/../../side[device!=$DEVICE-TOPOLOGY-NAME]/port/interface-name}</description>
+            <shutdown tags="delete"></shutdown>
+           <switchport>
+             <access>
+               <vlan>100</vlan>
+             </access>
+           </switchport>
+          </GigabitEthernet>
         </interface>
       </config>
   </device>

@@ -45,7 +45,7 @@
         <name>router-to-wan</name>
         <side>
           <name>A</name>
-          <device></device>
+          <device>router</device>
           <port>
             <interface-type>TenGigabitEthernet</interface-type>
             <interface-name>1/2</interface-name>

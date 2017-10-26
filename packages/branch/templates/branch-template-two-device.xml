@@ -1,11 +1,10 @@
 <config xmlns="http://tail-f.com/ns/config/1.0">
   <branch-service xmlns="http://example.com/branch">
   <branch>
-    <name>ftw</name>
+    <name>{$BRANCH-NAME}</name>
     <topology>
       <device>
         <topology-name>router</topology-name>
-        <hostname>lab-ftw-4321-router</hostname>
         <type>
           <role>router</role>
           <model>ISR4451-X/K9</model>
@@ -14,7 +13,6 @@
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>1</interface-number>
-            <ip-address>1.1.5.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>
@@ -42,26 +40,6 @@
           <routing>
             <policy-name>ROUTING</policy-name>
             <as-number>62100</as-number>
-            <!-- aggregate-address>
-              <ip-address>1.1.1.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address>
-            <aggregate-address>
-              <ip-address>2.2.5.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address>
-            <aggregate-address>
-              <ip-address>3.3.5.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address>
-            <aggregate-address>
-              <ip-address>4.4.5.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address>
-            <aggregate-address>
-              <ip-address>5.5.5.0</ip-address>
-              <ip-mask>225.255.255.0</ip-mask>
-            </aggregate-address -->
           </routing>
           <static-route>
             <policy-name>STATIC-ROUTE</policy-name>
@@ -85,7 +63,6 @@
       </device>
       <device>
         <topology-name>switch</topology-name>
-        <hostname>lab-ftw-3850-switch</hostname>
           <type>
           <role>access-core</role>
           <model>WS-C3850-12X48U</model>
@@ -98,7 +75,6 @@
           <loopback>
             <policy-name>LOOPBACK</policy-name>
             <interface-number>1</interface-number>
-            <ip-address>1.1.6.1</ip-address>
           </loopback>
           <loopback>
             <policy-name>LOOPBACK</policy-name>

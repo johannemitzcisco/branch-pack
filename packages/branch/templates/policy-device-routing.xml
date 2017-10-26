@@ -46,12 +46,12 @@
                 <soft-reconfiguration>inbound</soft-reconfiguration>
               </neighbor>
             </neighbor-tag>
-            <neighbor foreach="{/branch/topology/device[name!=$DEVICE-NAME and type/role='router']/policies/loopback[interface-number=1]}">
+            <neighbor foreach="{/branch/topology/device[hostname!=$DEVICE-NAME and type/role='router']/policies/loopback[interface-number=1]}">
               <id>{current()/ip-address}</id>
               <peer-group>BRANCH_IBGP</peer-group>
               <description>branch:ibgp:{current()/device}</description>
             </neighbor>
-            <neighbor foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-interlink]/side[device!=$DEVICE-TOPOLOGY-NAME]/port}">
+            <neighbor foreach="{/branch[name=$SERVICE-NAME]/topology/connection[type/router-interlink]/side[topology-name!=$DEVICE-TOPOLOGY-NAME]/port}">
               <id>{current()/ip-address}</id>
               <peer-group>BRANCH_IBGP</peer-group>
               <update-source>

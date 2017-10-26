@@ -4,7 +4,8 @@
     <name>hou</name>
     <topology>
       <device>
-        <name>lab-hou-4451-router</name>
+        <topology-name>router</topology-name>
+        <hostname>lab-hou-4451-router</hostname>
         <type>
           <role>router</role>
           <model>ISR4451-X/K9</model>
@@ -64,20 +65,21 @@
           </routing>
           <static-route>
             <policy-name>STATIC-ROUTE</policy-name>
-            <prefix>1.1.1.1</prefix>
+            <prefix>1.1.1.0</prefix>
             <mask>255.255.255.0</mask>
             <forwarding-address>68.138.1.1</forwarding-address>
           </static-route>
           <static-route>
             <policy-name>STATIC-ROUTE</policy-name>
-            <prefix>1.1.5.1</prefix>
+            <prefix>1.1.5.0</prefix>
             <mask>255.255.255.0</mask>
             <forwarding-address>68.138.1.3</forwarding-address>
           </static-route>
         </policies>
       </device>
       <device>
-        <name>lab-hou-3850-switch</name>
+        <topology-name>switch</topology-name>
+        <hostname>lab-hou-3850-switch</hostname>
         <type>
           <role>access-core</role>
           <model>WS-C3850-12X48U</model>
@@ -124,7 +126,7 @@
         <name>hou-router-wan</name>
         <side>
           <name>A</name>
-          <device>lab-hou-4451-router</device>
+          <device>router</device>
           <port>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/0</interface-name>
@@ -142,7 +144,7 @@
         <name>hou-accesscore-router</name>
         <side>
           <name>A</name>
-          <device>lab-hou-3850-switch</device>
+          <device>switch</device>
           <port>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>1/0/1</interface-name>
@@ -152,7 +154,7 @@
         </side>
         <side>
           <name>B</name>
-          <device>lab-hou-4451-router</device>
+          <device>router</device>
           <port>
             <interface-type>GigabitEthernet</interface-type>
             <interface-name>0/0/1</interface-name>
@@ -170,7 +172,7 @@
         <name>lab-hou-access-general-data-300</name>
         <side>
           <name>A</name>
-          <device>sim-hou-3850-swtich</device>
+          <device>switch</device>
           <port>
             <interface-type>Vlan</interface-type>
             <interface-name>300</interface-name>
@@ -182,7 +184,7 @@
             <access-type>DATA</access-type>
             <helper-address>77.77.77.77</helper-address>
             <interface-type>GigabitEthernet</interface-type>
-            <interface-name>0/0/1</interface-name>
+            <interface-name>1/0/2</interface-name>
           </access>
         </type>
       </connection>
@@ -202,7 +204,7 @@
             <access-type>VOICE</access-type>
             <helper-address>77.77.77.77</helper-address>
             <interface-type>GigabitEthernet</interface-type>
-            <interface-name>0/0/1</interface-name>
+            <interface-name>1/0/2</interface-name>
           </access>
         </type>
       </connection>
@@ -222,7 +224,7 @@
             <access-type>SECURITY</access-type>
             <helper-address>77.77.77.77</helper-address>
             <interface-type>GigabitEthernet</interface-type>
-            <interface-name>0/0/2</interface-name>
+            <interface-name>1/0/3</interface-name>
           </access>
         </type>
       </connection -->

@@ -3,7 +3,6 @@ import ncs
 from ncs.application import Service
 from ncs.dp import Action
 from ncs.maapi import Maapi
-#from ncs.maapi import Transaction
 
 
 # ------------------------
@@ -88,22 +87,32 @@ class ServiceCallbacks(Service):
             vars = ncs.template.Variables()
             vars.add('SERVICE-NAME', service.name)
             self.log.info('Connection: ', connection.name, ' Path: ', connection._path)
+            self.log.info('SERVICE-NAME: ', service.name)
             for connectiontype in connection.type:
                 connectiontypenode = ncs.maagic.cd(connection.type,connectiontype)
                 self.log.info('Connection Type: ', connectiontype, ' ', type(connectiontypenode))
                 try:
                     if connectiontypenode is not None and connectiontypenode.policy_name is not None:
-                        self.log.info('Policy Name: ', connectiontypenode.policy_name, ' ', type(connectiontypenode))
+                        self.log.info('Policy Name: ', connectiontypenode.policy_name)
                         break
                 except AttributeError as error:
+                    self.log.info('error: ', error)
                     pass
             for side in ('A', 'B'):
+                self.log.info('SIDE: ', side)
                 if side in connection.side:
                     side_device = connection.side[side].device
-                    if side_device not in root.devices.device: # The device is not yet registered with NSO
+                    self.log.info('SIDE DEVICE: ', side_device)
+                    hostname = service.topology.device[side_device].hostname
+                    self.log.info('SIDE HOSTNAME: ', hostname)
+                    if hostname is None or hostname not in root.devices.device: # The device is not yet registered with NSO
                         continue
-                    vars.add('DEVICE-NAME', side_device)
+                    self.log.info('CONNECTION-NAME: ', connection.name)
+                    self.log.info('DEVICE-TOPOLOGY-NAME: ', side_device)
+                    self.log.info('DEVICE-NAME: ', service.topology.device[side_device].hostname)
                     vars.add('CONNECTION-NAME', connection.name)
+                    vars.add('DEVICE-TOPOLOGY-NAME', side_device)
+                    vars.add('DEVICE-NAME', service.topology.device[side_device].hostname)
                     if side_device is not None:
                         side_device_role_location = '/branch:branch-service/branch:branch{'+service.name+'}/branch:topology/branch:device{'+side_device+'}/branch:type/branch:role'
                         self.log.info('Side Device: ', side_device, ' Location: ', side_device_role_location)
@@ -147,19 +156,51 @@ class LoadServiceTemplate(Action):
         # Updating the output data structure will result in a response
         # being returned to the caller.
         template = input.topology_template
-        m = ncs.maapi.Maapi()
-        m.start_user_session(uinfo.username, uinfo.context)
-        t = m.start_write_trans()
-        template_name = ncs.maagic.get_node(t, "/branch:branch-service/branch-policies/branch/topology-templates{"+input.topology_template+"}/model-template-file")
-        self.log.info('Branch Template Name: ', template_name)
-        vars = ncs.template.Variables()
-        vars.add('BRANCH-NAME',input.branch_name)
-        m.apply_template(t.th,name=template_name,path=kp,vars=vars)
-        try:
-            pass
-        finally:
-            t.finish_trans()
-            m.close()
+        with ncs.maapi.Maapi() as m:
+            with ncs.maapi.Session(m, uinfo.username, uinfo.context):
+                with m.start_write_trans() as t:
+                    template_name = t.get_elem("/branch:branch-service/branch-policies/branch/topology-templates{"+input.topology_template+"}/model-template-file")
+                    self.log.info('Branch Template Name: ', template_name)
+                    vars = ncs.template.Variables()
+                    vars.add('BRANCH-NAME',input.branch_name)
+                    m.apply_template(t.th,name=str(template_name),path=kp,vars=vars)
+                    t.apply()
+
+class TestService(Action):
+    @Action.action
+    def cb_action(self, uinfo, name, kp, input, output):
+        self.log.info('action name: ', name)
+        self.log.info('Keypath: ', kp)
+
+        with ncs.maapi.Maapi() as m:
+            with ncs.maapi.Session(m, uinfo.username, uinfo.context):
+                with m.start_write_trans() as t:
+                    service = ncs.maagic.get_node(t, kp)
+                    service_status = "PASSED"
+                    for test in service.test:
+                        self.log.info('test device: ', test.device)
+                        device = ncs.maagic.get_node(t, '/devices/device{'+str(test.device)+'}')
+                        command = test.command
+                        match_criteria = test.match_criteria
+                        self.log.info('device: ', device)
+                        self.log.info('test command: ', command)
+                        self.log.info('match_criteria: ', match_criteria)
+                        action = device.live_status.ios_stats__exec.any
+                        action_input = action.get_input()
+                        action_input.args = str(command).split(' ')
+                        action_result = action.request(action_input)
+                        self.log.info('Command Returned: ', action_result.result)
+                        test.command_output = action_result.result
+                        test_result = "FAILED"
+                        for line in action_result.result.splitlines():
+                            if all(crition in line for crition in match_criteria):
+                                test_result = "PASSED"
+                                break;
+                        if test_result == "FAILED":
+                            service_status = "FAILED"
+                        test.status = test_result
+                        service.service_status = service_status
+                    t.apply()
 
 
 
@@ -177,6 +218,7 @@ class Deploy(ncs.application.Application):
         #
         self.register_service('branch-servicepoint', ServiceCallbacks)
         self.register_action('loadservicetemplate-action', LoadServiceTemplate)
+        self.register_action('testservice-action', TestService)
 
         # If we registered any callback(s) above, the Application class
         # took care of creating a daemon (related to the service/action point).
