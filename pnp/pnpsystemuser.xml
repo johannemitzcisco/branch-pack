@@ -1,0 +1,16 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <aaa xmlns="http://tail-f.com/ns/aaa/1.1">
+  <authentication>
+  <users>
+  <user>
+    <name>pnp-service</name>
+    <uid>1000</uid>
+    <gid>0</gid>
+    <password>$6$W2PCUR7vndztWqCN$VKDhMgQOaqv4OfkqIDmq//hNxJLm6.PGnD6TNtojV55u4zxBDAlPBtIZbTWnnwWOsEh2SyPcOrV3Guq7NGCjo0</password>
+    <ssh_keydir>/home/pnpsystem/.ssh</ssh_keydir>
+    <homedir>/home/pnpsystem</homedir>
+  </user>
+  </users>
+  </authentication>
+  </aaa>
+</config>

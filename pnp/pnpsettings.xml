@@ -1,0 +1,8 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <pnp xmlns="http://tail-f.com/ned/cisco/pnp">
+    <logging>
+      <directory>logs/pnp-devices</directory>
+    </logging>
+    <cfg-location>/root/projects/branch-pack/pnp</cfg-location>
+  </pnp>
+</config>
