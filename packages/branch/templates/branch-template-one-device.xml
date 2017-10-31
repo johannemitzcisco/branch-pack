@@ -1,5 +1,5 @@
 <config xmlns="http://tail-f.com/ns/config/1.0">
-  <branch-service xmlns="http://example.com/branch">
+  <branch-service xmlns="http://example.com/branch"> 
   <branch>
     <name>{$BRANCH-NAME}</name>
     <topology>

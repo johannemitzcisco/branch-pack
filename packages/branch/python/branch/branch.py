@@ -152,7 +152,7 @@ class LoadServiceTemplate(Action):
         self.log.info('Branch Name: ', input.branch_name)
         self.log.info('template: ', input.topology_template)
         self.log.info('Keypath: ', kp)
-        self.log.info('SELF WT: ', type(self._wt), ' ', dir(self._wt))
+#        self.log.info('SELF WT: ', type(self._wt), ' ', dir(self._wt))
         # Updating the output data structure will result in a response
         # being returned to the caller.
         template = input.topology_template

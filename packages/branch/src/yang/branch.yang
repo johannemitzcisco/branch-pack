@@ -33,6 +33,7 @@ module branch {
       enum "core";
       enum "access";
       enum "access-core";
+      enum "distribution";
     }
   }
 
@@ -356,6 +357,20 @@ module branch {
                   }
                 }
               }
+              container access-distribution {
+                leaf policy-name {
+                  type leafref {
+                    path "/branch:branch-service/branch-policies/connection/access-distribution/name";
+                  }
+                }
+              }
+              container distribution-core {
+                leaf policy-name {
+                  type leafref {
+                    path "/branch:branch-service/branch-policies/connection/distribution-core/name";
+                  }
+                }
+              }
               container router-wan {
                 leaf policy-name {
                   type leafref {
@@ -367,6 +382,13 @@ module branch {
                 leaf policy-name {
                   type leafref {
                     path "/branch:branch-service/branch-policies/connection/router-interlink/name";
+                  }
+                }
+              }
+              container distribution-interlink {
+                leaf policy-name {
+                  type leafref {
+                    path "/branch:branch-service/branch-policies/connection/distribution-interlink/name";
                   }
                 }
               }
@@ -445,12 +467,55 @@ module branch {
             }
           }
         }
+        list distribution-interlink {
+          key name;
+          leaf name {
+            type string;
+          }
+          container distribution {
+            leaf template {
+              type string;
+            }
+          }
+        }
         list access-core {
           key name;
           leaf name {
             type string;
           }
           container access {
+            leaf template {
+              type string;
+            }
+          }
+          container core {
+            leaf template {
+              type string;
+            }
+          }
+        }
+        list access-distribution {
+          key name;
+          leaf name {
+            type string;
+          }
+          container access {
+            leaf template {
+              type string;
+            }
+          }
+          container distribution {
+            leaf template {
+              type string;
+            }
+          }
+        }
+        list distribution-core {
+          key name;
+          leaf name {
+            type string;
+          }
+          container distribution {
             leaf template {
               type string;
             }

@@ -70,6 +70,20 @@
             <ntp>NTP</ntp>
           </policies>
         </role>
+        <role>
+          <name>distribution</name>
+          <model>
+            <name>WS-C3850-12X48U</name>
+            <template>device-base-core</template>
+          </model>
+          <policies>
+            <!-- general>ACCESS-LIST</general -->
+            <general>SPANNING-TREE</general>
+            <!-- vtp>VTP-POLICY</vtp -->
+            <ospf>OSPF-WITH-VLAN</ospf>
+            <ntp>NTP</ntp>
+          </policies>
+        </role>
         <registration>
           <name>PNP</name>
           <template>policy-device-pnp</template>
@@ -97,7 +111,7 @@
         <vtp>
           <name>VTP-POLICY</name>
           <template>policy-device-vtp</template>
-          <domain-name>AIGGS</domain-name>
+          <domain-name>CISCO</domain-name>
         </vtp>
         <switchstack>
           <name>SWITCH-STACK</name>
@@ -167,6 +181,12 @@
             <template>connection-core-interlink</template>
           </core>
         </core-interlink>
+        <distribution-interlink>
+          <name>DISTRIBUTION-INTERLINK</name>
+          <distribution>
+            <template>connection-core-interlink</template>
+          </distribution>
+        </distribution-interlink>
         <access-core>
           <name>ACCESS-CORE</name>
           <core>
@@ -176,6 +196,24 @@
             <template>connection-access-core-access</template>
           </access>
         </access-core>
+        <distribution-core>
+          <name>DISTRIBUTION-CORE</name>
+          <core>
+            <template>connection-access-core-core</template>
+          </core>
+          <distribution>
+            <template>connection-access-core-access</template>
+          </distribution>
+        </distribution-core>
+        <access-distribution>
+          <name>ACCESS-DISTRIBUTION</name>
+          <distribution>
+            <template>connection-access-core-core</template>
+          </distribution>
+          <access>
+            <template>connection-access-core-access</template>
+          </access>
+        </access-distribution>
         <access>
           <name>ACCESS-GENERAL</name>
           <access>
@@ -209,6 +247,14 @@
         <topology-templates>
           <name>Two-Device-Branch</name>
           <model-template-file>branch-template-two-device</model-template-file>
+        </topology-templates>
+        <topology-templates>
+          <name>Campus-Large</name>
+          <model-template-file>branch-template-campus-large</model-template-file>
+        </topology-templates>
+        <topology-templates>
+          <name>Campus-Small</name>
+          <model-template-file>branch-template-campus-small</model-template-file>
         </topology-templates>
       </branch>
     </branch-policies>
